@@ -1,0 +1,47 @@
+@model IEnumerable<Candidate>
+
+@if(Model.Count() > 0){
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Applications(@Model.Count())</h1>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Email</th>
+                <th>Yaş</th>
+                <th>Apply At</th>
+                <th>Seçilen Kurs</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.firstName</td>
+                    <td>@item.lastName</td>
+                    <td>@item.email</td>
+                    <td>@item.age</td>
+                    <td>@item.applyAt</td>
+                    <td>@item.selectedCourse</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-between">
+        <a href="/" class="btn btn-primary">AnaSayfa</a>
+        <a href="/course/apply" class="btn btn-danger">Başvuru</a>
+    </div>
+</div>
+  }  
+  else{
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">No applications found 
+       <a asp-action="Apply" asp-controller="Course" class="alert alert-danger">Apply</a>
+    </div>
+  }
+
+
+
+
+

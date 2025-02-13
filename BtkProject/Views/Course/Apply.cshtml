@@ -1,0 +1,45 @@
+
+@model Candidate
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Course Application Form</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-action="apply">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="firstName" class="form-label">First Name</label>
+                <input asp-for="firstName" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="lastName" class="form-label">Last Name</label>
+                <input asp-for="lastName" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="email" class="form-label">Email</label>
+                <input asp-for="email" class="form-control" type="email">
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="age" class="form-label">Age</label>
+                <input asp-for="age" class="form-control" type="number">
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="selectedCourse" class="form-label">Course Selection</label>
+                <select asp-for="selectedCourse" class="form-select">
+                    <option value="">Select a course</option>
+                    <option value="MVC">ASP.NET Core MVC</option> 
+                    <option value="API">Web API</option>
+                    <option value="Blazor"selected>Blazor</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Apply</button>
+            <a href="/" class="btn btn-warning">Home</a>
+        </form>
+    </div>
+</div>
