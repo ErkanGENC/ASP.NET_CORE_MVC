@@ -1,15 +1,29 @@
-using Microsoft.EntityFrameworkCore;
-using StoreApp.Models;
+using StoreApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<RepositoryContext>(options=>{
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection"));
-});
+builder.Services.ConfigureApplicationServices(builder.Configuration);
 
 var app = builder.Build();
+
+// Seed Data'yı uygula
+app.ConfigureAndSeedDb();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
+
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

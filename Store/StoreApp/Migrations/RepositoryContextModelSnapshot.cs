@@ -2,7 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using StoreApp.Models;
+using Repositories.Models;
+using Entities.Models;
 
 #nullable disable
 
@@ -16,11 +17,17 @@ namespace StoreApp.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
 
-            modelBuilder.Entity("StoreApp.Models.Products", b =>
+            modelBuilder.Entity("StoreApp.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -31,32 +38,6 @@ namespace StoreApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Computer",
-                            Price = 1000m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Laptop",
-                            Price = 2000m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Tablet",
-                            Price = 3000m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Smartphone",
-                            Price = 4000m
-                        });
                 });
 #pragma warning restore 612, 618
         }
