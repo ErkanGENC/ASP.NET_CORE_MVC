@@ -1,18 +1,14 @@
-@model Category
+@model CategoryDto
 
-<div class="container-fluid mt-4">
+<div class="container mt-4">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 offset-md-2">
             <div class="card shadow-sm">
-                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <div class="card-header bg-success text-white">
                     <h4 class="mb-0">
                         <i class="fa fa-plus-circle"></i>
-                        Create New Category
+                        Yeni Kategori Ekle
                     </h4>
-                    <span class="badge bg-light text-success">
-                        <i class="fa fa-folder-open"></i>
-                        New
-                    </span>
                 </div>
                 <div class="card-body">
                     <form asp-area="Admin" 
@@ -24,12 +20,12 @@
                         <div class="form-floating mb-4">
                             <input asp-for="CategoryName" 
                                    class="form-control form-control-lg" 
-                                   placeholder="Category Name"
+                                   placeholder="Kategori Adı"
                                    required />
-                            <label asp-for="CategoryName">Category Name</label>
+                            <label asp-for="CategoryName">Kategori Adı</label>
                             <span asp-validation-for="CategoryName" class="text-danger"></span>
                             <div class="form-text">
-                                Category name must be unique.
+                                Kategori adı benzersiz olmalıdır.
                             </div>
                         </div>
 
@@ -39,11 +35,11 @@
                                     <i class="fa fa-info-circle fa-2x"></i>
                                 </div>
                                 <div>
-                                    <h5 class="alert-heading">Category Creation Rules</h5>
+                                    <h5 class="alert-heading">Kategori Oluşturma Kuralları</h5>
                                     <p class="mb-0">
-                                        - Category name must be at least 3 characters<br />
-                                        - Special characters are not allowed<br />
-                                        - Existing category names cannot be used
+                                        - Kategori adı en az 3 karakter olmalıdır<br />
+                                        - Özel karakterler kullanılamaz<br />
+                                        - Var olan kategori adları kullanılamaz
                                     </p>
                                 </div>
                             </div>
@@ -55,16 +51,16 @@
                                asp-action="Index" 
                                class="btn btn-outline-secondary btn-lg">
                                 <i class="fa fa-arrow-left"></i>
-                                Back to List
+                                Listeye Dön
                             </a>
                             <div class="btn-group">
                                 <button type="reset" class="btn btn-warning btn-lg me-2">
                                     <i class="fa fa-refresh"></i>
-                                    Clear Form
+                                    Formu Temizle
                                 </button>
                                 <button type="submit" class="btn btn-success btn-lg">
                                     <i class="fa fa-save"></i>
-                                    Save Category
+                                    Kategoriyi Kaydet
                                 </button>
                             </div>
                         </div>
@@ -72,75 +68,14 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">
-                        <i class="fa fa-chart-bar"></i>
-                        Category Statistics
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="list-group">
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            Total Number of Categories
-                            <span class="badge bg-primary rounded-pill">@await Component.InvokeAsync("CategoryCount")</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            Category with Most Products
-                            <span class="badge bg-success rounded-pill">@await Component.InvokeAsync("TopCategory")</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0">
-                        <i class="fa fa-lightbulb"></i>
-                        Tips
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="accordion" id="categoryTips">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tip1">
-                                    Category Name Selection
-                                </button>
-                            </h2>
-                            <div id="tip1" class="accordion-collapse collapse show" data-bs-parent="#categoryTips">
-                                <div class="accordion-body">
-                                    Category name should be short and descriptive. For example: "Electronics", "Books", "Clothing" etc.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tip2">
-                                    Subcategories
-                                </button>
-                            </h2>
-                            <div id="tip2" class="accordion-collapse collapse" data-bs-parent="#categoryTips">
-                                <div class="accordion-body">
-                                    Subcategories can be added in the future. Choose category names accordingly.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
 @section Scripts {
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
     
     <script>
-        // Bootstrap validation for form validation
+        // Bootstrap validation
         (function () {
             'use strict'
             var forms = document.querySelectorAll('.needs-validation')
@@ -156,15 +91,15 @@
                 })
         })()
 
-        // Custom validation for category name
+        // Kategori adı validasyonu
         $('#CategoryName').on('input', function() {
             var categoryName = $(this).val();
             if(categoryName.length < 3) {
                 $(this).addClass('is-invalid');
-                $(this).siblings('.text-danger').text('Category name must be at least 3 characters.');
+                $(this).siblings('.text-danger').text('Kategori adı en az 3 karakter olmalıdır.');
             } else if(/[^a-zA-ZğüşıöçĞÜŞİÖÇ\s]/.test(categoryName)) {
                 $(this).addClass('is-invalid');
-                $(this).siblings('.text-danger').text('Special characters are not allowed in category name.');
+                $(this).siblings('.text-danger').text('Kategori adında özel karakter kullanılamaz.');
             } else {
                 $(this).removeClass('is-invalid');
                 $(this).siblings('.text-danger').text('');

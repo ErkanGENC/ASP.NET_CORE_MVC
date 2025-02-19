@@ -1,4 +1,4 @@
-@model Product
+@model ProductDtoForInsertion
 
 <div class="container mt-4">
     <div class="row">
@@ -7,7 +7,7 @@
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">
                         <i class="fa fa-plus-circle"></i>
-                        Add New Product
+                        Yeni Ürün Ekle
                     </h4>
                 </div>
                 <div class="card-body">
@@ -15,17 +15,33 @@
                           asp-controller="Product" 
                           asp-action="Create" 
                           method="post"
-                          class="needs-validation">
+                          class="needs-validation"
+                          enctype="multipart/form-data"
+                          >
 
                         <div class="form-floating mb-3">
                             <input asp-for="Name" 
                                    class="form-control" 
-                                   placeholder="Product Name"
+                                   placeholder="Ürün Adı"
                                    required />
-                            <label asp-for="Name">Product Name</label>
+                            <label asp-for="Name">Ürün Adı</label>
                             <span asp-validation-for="Name" class="text-danger"></span>
                             <div class="invalid-feedback">
-                                Please enter a product name.
+                                Lütfen ürün adını giriniz.
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select asp-for="CategoryId" 
+                                    asp-items="@ViewBag.Categories"
+                                    class="form-select"
+                                    required>
+                                <option value="">Kategori Seçiniz</option>
+                            </select>
+                            <label asp-for="CategoryId">Kategori</label>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            <div class="invalid-feedback">
+                                Lütfen bir kategori seçiniz.
                             </div>
                         </div>
 
@@ -35,12 +51,12 @@
                                    type="number" 
                                    step="0.01"
                                    min="0"
-                                   placeholder="Price"
+                                   placeholder="Fiyat"
                                    required />
-                            <label asp-for="Price">Price (₺)</label>
+                            <label asp-for="Price">Fiyat (₺)</label>
                             <span asp-validation-for="Price" class="text-danger"></span>
                             <div class="invalid-feedback">
-                                Please enter a valid price.
+                                Lütfen geçerli bir fiyat giriniz.
                             </div>
                         </div>
 
@@ -48,24 +64,27 @@
                             <textarea asp-for="Description" 
                                       class="form-control" 
                                       style="height: 100px"
-                                      placeholder="Description"></textarea>
-                            <label asp-for="Description">Description</label>
+                                      placeholder="Açıklama"></textarea>
+                            <label asp-for="Description">Açıklama</label>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="ImageUrl" class="form-label">Product Image</label>
+                            <label asp-for="ImageUrl" class="form-label">Ürün Görseli</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fa fa-image"></i>
                                 </span>
-                                <input asp-for="ImageUrl" 
-                                       class="form-control" 
-                                       placeholder="Enter URL" />
+                                <input type="file" 
+                                       name="imageFile"
+                                       class="form-control"
+                                       accept="image/*" />
                             </div>
                             <span asp-validation-for="ImageUrl" class="text-danger"></span>
                             <div class="form-text">
-                                Default image will be used if no image URL is provided.
+                                Görsel seçilmezse varsayılan görsel kullanılacaktır.
+                                <br />
+                                seçilen görsel jpg.# formatında olmalıdır.
                             </div>
                         </div>
 
@@ -75,11 +94,11 @@
                                asp-action="Index" 
                                class="btn btn-secondary me-md-2">
                                 <i class="fa fa-arrow-left"></i>
-                                Back to List
+                                Listeye Dön
                             </a>
                             <button type="submit" class="btn btn-success">
                                 <i class="fa fa-save"></i>
-                                Save Product
+                                Ürünü Kaydet
                             </button>
                         </div>
                     </form>
@@ -90,11 +109,10 @@
 </div>
 
 @section Scripts {
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
     
     <script>
-        // Bootstrap validation for form
+        // Bootstrap validation
         (function () {
             'use strict'
             var forms = document.querySelectorAll('.needs-validation')
@@ -110,7 +128,7 @@
                 })
         })()
 
-        // Custom validation for Turkish decimal format
+        // Türkçe ondalık format için özel validasyon
         $.validator.methods.range = function (value, element, param) {
             var globalizedValue = value.replace(",", ".");
             return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);

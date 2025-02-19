@@ -1,4 +1,5 @@
 using Entities.Models;
+using Entities.Dtos;
 using Repositories.Contracts;
 using Services.Abstract;
 
@@ -13,24 +14,66 @@ namespace Services.Concrete
             _repositoryManager = repositoryManager;
         }
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
         {
-            return await _repositoryManager.Product.GetAllProductsAsync();
+            var products = await _repositoryManager.Product.GetAllProductsAsync();
+            return products.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                Description = p.Description,
+                ImageUrl = p.ImageUrl,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category?.CategoryName
+            });
         }
 
-        public async Task<Product> GetProductByIdAsync(int id)
+        public async Task<ProductDto> GetProductByIdAsync(int id)
         {
-            return await _repositoryManager.Product.GetProductByIdAsync(id);
+            var product = await _repositoryManager.Product.GetProductByIdAsync(id);
+            if (product == null)
+                throw new Exception($"Product with id {id} not found");
+
+            return new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                CategoryId = product.CategoryId,
+                CategoryName = product.Category?.CategoryName
+            };
         }
 
-        public async Task CreateProductAsync(Product product)
+        public async Task CreateProductAsync(ProductDtoForInsertion productDto)
         {
+            var product = new Product
+            {
+                Name = productDto.Name,
+                Price = productDto.Price,
+                Description = productDto.Description,
+                ImageUrl = productDto.ImageUrl ?? "/images/products/default.jpg",
+                CategoryId = productDto.CategoryId
+            };
+
             await _repositoryManager.Product.CreateProductAsync(product);
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task UpdateProductAsync(Product product)
+        public async Task UpdateProductAsync(ProductDtoForUpdate productDto)
         {
+            var product = await _repositoryManager.Product.GetProductByIdAsync(productDto.Id);
+            if (product == null)
+                throw new Exception($"Product with id {productDto.Id} not found");
+
+            product.Name = productDto.Name;
+            product.Price = productDto.Price;
+            product.Description = productDto.Description;
+            product.ImageUrl = productDto.ImageUrl;
+            product.CategoryId = productDto.CategoryId;
+
             await _repositoryManager.Product.UpdateProductAsync(product);
             await _repositoryManager.SaveAsync();
         }

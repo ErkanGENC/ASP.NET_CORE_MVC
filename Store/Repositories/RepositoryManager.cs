@@ -60,6 +60,14 @@ namespace Repositories
                     new Category
                     {
                         CategoryName = "Kitaplar"
+                    },
+                    new Category
+                    {
+                        CategoryName = "Giyim"
+                    },
+                    new Category
+                    {
+                        CategoryName = "Spor"
                     }
                 );
 
@@ -68,34 +76,49 @@ namespace Repositories
 
             if (!context.Products.Any())
             {
+                var elektronik = context.Categories.First(c => c.CategoryName == "Elektronik");
+                var kitaplar = context.Categories.First(c => c.CategoryName == "Kitaplar");
+
                 context.Products.AddRange(
                     new Product
                     {
-                        Name = "Bilgisayar",
+                        Name = "Gaming Laptop",
                         Price = 15000,
-                        Description = "Gaming Laptop",
-                        ImageUrl = "/images/products/laptop.jpg"
+                        Description = "Yüksek performanslı oyun bilgisayarı",
+                        ImageUrl = "/images/products/laptop.jpg",
+                        CategoryId = elektronik.CategoryId
                     },
                     new Product
                     {
-                        Name = "Telefon",
+                        Name = "Akıllı Telefon",
                         Price = 7000,
-                        Description = "Akıllı Telefon",
-                        ImageUrl = "/images/products/phone.jpg"
+                        Description = "Son model akıllı telefon",
+                        ImageUrl = "/images/products/phone.jpg",
+                        CategoryId = elektronik.CategoryId
                     },
                     new Product
                     {
                         Name = "Tablet",
                         Price = 5000,
-                        Description = "10 inç Tablet",
-                        ImageUrl = "/images/products/tablet.jpg"
+                        Description = "10 inç ekranlı tablet",
+                        ImageUrl = "/images/products/tablet.jpg",
+                        CategoryId = elektronik.CategoryId
                     },
                     new Product
                     {
-                        Name = "Lazer",
-                        Price = 300,
-                        Description = "Lazer",
-                        ImageUrl = "/images/products/default.jpg"
+                        Name = "C# Programlama",
+                        Price = 150,
+                        Description = "C# programlama dili kitabı",
+                        ImageUrl = "/images/products/book.jpg",
+                        CategoryId = kitaplar.CategoryId
+                    },
+                    new Product
+                    {
+                        Name = "ASP.NET Core MVC",
+                        Price = 180,
+                        Description = "Web programlama kitabı",
+                        ImageUrl = "/images/products/book.jpg",
+                        CategoryId = kitaplar.CategoryId
                     }
                 );
 

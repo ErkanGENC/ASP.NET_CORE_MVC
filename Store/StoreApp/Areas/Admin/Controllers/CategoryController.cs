@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstract;
 using Entities.Models;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,11 @@ namespace StoreApp.Areas.Admin.Controllers
             try
             {
                 var categories = await _manager.CategoryService.GetAllCategoriesAsync();
-                return View(categories?.ToList() ?? new List<Category>());
+                return View(categories?.ToList() ?? new List<CategoryDto>());
             }
             catch (Exception)
             {
-                return View(new List<Category>());
+                return View(new List<CategoryDto>());
             }
         }
 
@@ -38,15 +39,15 @@ namespace StoreApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Category category)
+        public async Task<IActionResult> Create([FromForm] CategoryDto categoryDto)
         {
             if (ModelState.IsValid)
             {
-                await _manager.CategoryService.CreateCategoryAsync(category);
+                await _manager.CategoryService.CreateCategoryAsync(categoryDto);
                 await ReorderCategoryIds();
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(categoryDto);
         }
 
         public async Task<IActionResult> Update(int id)
@@ -60,14 +61,14 @@ namespace StoreApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Category category)
+        public async Task<IActionResult> Update([FromForm] CategoryDto categoryDto)
         {
             if (ModelState.IsValid)
             {
-                await _manager.CategoryService.UpdateCategoryAsync(category);
+                await _manager.CategoryService.UpdateCategoryAsync(categoryDto);
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(categoryDto);
         }
 
         [HttpGet]

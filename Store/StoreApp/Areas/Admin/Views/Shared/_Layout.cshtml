@@ -1,18 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - StoreApp</title>
+    <title>@ViewData["Title"] - Admin Panel</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     @await RenderSectionAsync("Css", required: false)
+    <style>
+        .navbar {
+            background-color: #2c3e50 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: #ecf0f1 !important;
+        }
+
+        .nav-link:hover {
+            color: #3498db !important;
+        }
+
+        .nav-link.active {
+            color: #3498db !important;
+            font-weight: bold;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 0 10px rgba(0,0,0,.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: -5px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            background: #e74c3c;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .admin-header {
+            background: #f8f9fa;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .admin-title {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #2c3e50;
+            color: #ecf0f1 !important;
+            padding: 1rem 0;
+        }
+
+        .footer a {
+            color: #3498db;
+        }
+    </style>
 </head>
 <body>
     <header>
-        @await Html.PartialAsync("_Navbar", ViewContext.HttpContext.Request.Path)
+        @await Html.PartialAsync("_Navbar");
     </header>
+
+    <div class="admin-header">
+        <div class="container">
+            <h1 class="admin-title">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                    <li class="breadcrumb-item active">@ViewContext.RouteData.Values["controller"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -22,7 +91,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container text-center">
-            &copy; 2024 - StoreApp - Made with <i class="fa fa-heart text-danger"></i>
+            &copy; @DateTime.Now.Year - Admin Panel - Made with <i class="fa fa-heart text-danger"></i>
         </div>
     </footer>
 

@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstract;
 using Entities.Models;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
@@ -24,29 +26,32 @@ namespace StoreApp.Areas.Admin.Controllers
             try
             {
                 var products = await _manager.ProductService.GetAllProductsAsync();
-                return View(products?.ToList() ?? new List<Product>());
+                return View(products?.ToList() ?? new List<ProductDto>());
             }
-            catch (System.Exception)
+            catch (Exception)
             {
-                return View(new List<Product>());
+                return View(new List<ProductDto>());
             }
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Categories = await GetCategoriesSelectList();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto)
         {
             if (ModelState.IsValid)
             {
-                await _manager.ProductService.CreateProductAsync(product);
+                await _manager.ProductService.CreateProductAsync(productDto);
                 await ReorderProductIds();
                 return RedirectToAction("Index");
             }
-            return View(product);
+
+            ViewBag.Categories = await GetCategoriesSelectList();
+            return View(productDto);
         }
 
         public async Task<IActionResult> Update(int id)
@@ -56,18 +61,32 @@ namespace StoreApp.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(product);
+
+            var productForUpdate = new ProductDtoForUpdate
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                CategoryId = product.CategoryId
+            };
+
+            ViewBag.Categories = await GetCategoriesSelectList();
+            return View(productForUpdate);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Product product)
+        public async Task<IActionResult> Update([FromForm] ProductDtoForUpdate productDto)
         {
             if (ModelState.IsValid)
             {
-                await _manager.ProductService.UpdateProductAsync(product);
+                await _manager.ProductService.UpdateProductAsync(productDto);
                 return RedirectToAction("Index");
             }
-            return View(product);
+
+            ViewBag.Categories = await GetCategoriesSelectList();
+            return View(productDto);
         }
 
         [HttpGet]
@@ -91,9 +110,14 @@ namespace StoreApp.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                // Hata durumunda loglama yapılabilir
                 return RedirectToAction("Index");
             }
+        }
+
+        private async Task<SelectList> GetCategoriesSelectList()
+        {
+            var categories = await _manager.CategoryService.GetAllCategoriesAsync();
+            return new SelectList(categories, "CategoryId", "CategoryName");
         }
 
         private async Task ResetDatabaseSequence()
@@ -108,11 +132,9 @@ namespace StoreApp.Areas.Admin.Controllers
 
                     using (var command = connection.CreateCommand())
                     {
-                        // SQLite sequence'i sıfırla
                         command.CommandText = "DELETE FROM sqlite_sequence WHERE name='Products';";
                         await command.ExecuteNonQueryAsync();
 
-                        // VACUUM ile veritabanını optimize et
                         command.CommandText = "VACUUM;";
                         await command.ExecuteNonQueryAsync();
                     }
@@ -137,21 +159,19 @@ namespace StoreApp.Areas.Admin.Controllers
 
                     using (var command = connection.CreateCommand())
                     {
-                        // Önce sequence'i sıfırla
                         command.CommandText = "DELETE FROM sqlite_sequence WHERE name='Products';";
                         await command.ExecuteNonQueryAsync();
 
-                        // Geçici tablo oluştur ve verileri kopyala
                         command.CommandText = @"
                             CREATE TEMPORARY TABLE TempProducts AS 
-                            SELECT NULL as NewId, Name, Price, Description, ImageUrl 
+                            SELECT NULL as NewId, Name, Price, Description, ImageUrl, CategoryId 
                             FROM Products 
                             ORDER BY Id;
 
                             DELETE FROM Products;
 
-                            INSERT INTO Products (Name, Price, Description, ImageUrl)
-                            SELECT Name, Price, Description, ImageUrl
+                            INSERT INTO Products (Name, Price, Description, ImageUrl, CategoryId)
+                            SELECT Name, Price, Description, ImageUrl, CategoryId
                             FROM TempProducts
                             ORDER BY rowid;
 
@@ -159,7 +179,6 @@ namespace StoreApp.Areas.Admin.Controllers
                         ";
                         await command.ExecuteNonQueryAsync();
 
-                        // VACUUM ile veritabanını optimize et
                         command.CommandText = "VACUUM;";
                         await command.ExecuteNonQueryAsync();
                     }

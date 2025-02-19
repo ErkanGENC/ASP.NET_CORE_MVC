@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Aaboc5tKLpR2lE02fX6vmsPbw/RACexFpPQqjr8rcR0=",
+  "Hash": "Q9tr6+0Kn90fu6bJiA0phqe64icy71bansu3l31Xrtw=",
   "Source": "StoreApp",
   "BasePath": "_content/StoreApp",
   "Mode": "Default",
@@ -36,6 +36,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\admin\\admin_avatar.jpg",
+      "SourceId": "StoreApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\",
+      "BasePath": "_content/StoreApp",
+      "RelativePath": "images/admin/admin_avatar#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0aah0p3qbr",
+      "Integrity": "SALtGEDwvvgG8TO12hkXefkj6fMh+P1Ok/PlbWrU3qs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\admin\\admin_avatar.jpg"
     },
     {
       "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\default.jpg",
@@ -6880,6 +6901,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-j3J27a3rhDaPd42N3mjJ06ZsOHIJL+JZx5pJsfAQacU="
+        }
+      ]
+    },
+    {
+      "Route": "images/admin/admin_avatar.0aah0p3qbr.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\admin\\admin_avatar.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "10917"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SALtGEDwvvgG8TO12hkXefkj6fMh+P1Ok/PlbWrU3qs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 19 Feb 2025 12:30:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0aah0p3qbr"
+        },
+        {
+          "Name": "label",
+          "Value": "images/admin/admin_avatar.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SALtGEDwvvgG8TO12hkXefkj6fMh+P1Ok/PlbWrU3qs="
+        }
+      ]
+    },
+    {
+      "Route": "images/admin/admin_avatar.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\admin\\admin_avatar.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "10917"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SALtGEDwvvgG8TO12hkXefkj6fMh+P1Ok/PlbWrU3qs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 19 Feb 2025 12:30:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SALtGEDwvvgG8TO12hkXefkj6fMh+P1Ok/PlbWrU3qs="
         }
       ]
     },

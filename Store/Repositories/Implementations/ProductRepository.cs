@@ -12,10 +12,13 @@ namespace Repositories.Implementations
         }
 
         public IQueryable<Product> GetAllProducts(bool trackChanges) =>
-            FindAll(trackChanges);
+            FindAll(trackChanges)
+                .Include(p => p.Category);
 
         public Product? GetOneProduct(int id, bool trackChanges) =>
-            FindByCondition(p => p.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByCondition(p => p.Id.Equals(id), trackChanges)
+                .Include(p => p.Category)
+                .SingleOrDefault();
 
         public void CreateProduct(Product product) => Create(product);
 
@@ -25,10 +28,14 @@ namespace Repositories.Implementations
 
         // Async implementasyonlar
         public async Task<IEnumerable<Product>> GetAllProductsAsync() =>
-            await FindAll(false).ToListAsync();
+            await FindAll(false)
+                .Include(p => p.Category)
+                .ToListAsync();
 
         public async Task<Product?> GetProductByIdAsync(int id) =>
-            await FindByCondition(p => p.Id.Equals(id), false).SingleOrDefaultAsync();
+            await FindByCondition(p => p.Id.Equals(id), false)
+                .Include(p => p.Category)
+                .SingleOrDefaultAsync();
 
         public async Task CreateProductAsync(Product product) => 
             await Task.Run(() => Create(product));
