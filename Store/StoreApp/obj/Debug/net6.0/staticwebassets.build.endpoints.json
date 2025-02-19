@@ -85,6 +85,88 @@
       ]
     },
     {
+      "Route": "images/products/default.jpg",
+      "AssetFile": "images/products/default.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4645"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8XfWh8xi7ea2ky5T+vrpmuLwY6t1YVyxywLQrWFgM6w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 30 Apr 2024 16:15:46 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8XfWh8xi7ea2ky5T+vrpmuLwY6t1YVyxywLQrWFgM6w="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/default.rteo3lphdl.jpg",
+      "AssetFile": "images/products/default.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4645"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8XfWh8xi7ea2ky5T+vrpmuLwY6t1YVyxywLQrWFgM6w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 30 Apr 2024 16:15:46 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rteo3lphdl"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8XfWh8xi7ea2ky5T+vrpmuLwY6t1YVyxywLQrWFgM6w="
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/default.jpg"
+        }
+      ]
+    },
+    {
       "Route": "images/products/laptop.ba0acvnhqm.jpg",
       "AssetFile": "images/products/laptop.jpg",
       "Selectors": [],

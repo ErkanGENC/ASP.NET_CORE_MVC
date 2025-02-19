@@ -1,0 +1,26 @@
+@model IEnumerable<Entities.Models.Category>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Category List</h2>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Category Name</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.CategoryId</td>
+                    <td>@category.CategoryName</td>
+                    <td>
+                        <a asp-controller="Category" asp-action="Get" asp-route-id="@category.CategoryId" class="btn btn-primary">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div> 

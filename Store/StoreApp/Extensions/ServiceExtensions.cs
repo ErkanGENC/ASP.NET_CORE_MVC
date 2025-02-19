@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Repositories;
 using Repositories.Contracts;
 using Repositories.Implementations;
 using Repositories.Models;
@@ -12,7 +15,8 @@ namespace StoreApp.Extensions
         {
             services.AddDbContext<RepositoryContext>(options =>
             {
-                options.UseSqlite(configuration.GetConnectionString("sqlconnection"));
+                options.UseSqlite(configuration.GetConnectionString("sqlconnection"),
+                    b => b.MigrationsAssembly("StoreApp"));
             });
         }
 

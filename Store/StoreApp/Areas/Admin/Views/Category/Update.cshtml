@@ -1,0 +1,224 @@
+@model Category
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fa fa-edit"></i>
+                        Kategori Güncelleme
+                    </h4>
+                    <span class="badge bg-dark text-warning">
+                        ID: @Model.CategoryId
+                    </span>
+                </div>
+                <div class="card-body">
+                    <form asp-area="Admin" 
+                          asp-controller="Category" 
+                          asp-action="Update" 
+                          method="post"
+                          class="needs-validation">
+
+                        <input type="hidden" asp-for="CategoryId" />
+
+                        <div class="form-floating mb-4">
+                            <input asp-for="CategoryName" 
+                                   class="form-control form-control-lg" 
+                                   placeholder="Kategori Adı"
+                                   required />
+                            <label asp-for="CategoryName">Kategori Adı</label>
+                            <span asp-validation-for="CategoryName" class="text-danger"></span>
+                            <div class="form-text">
+                                Kategori adı benzersiz olmalıdır.
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning" role="alert">
+                            <div class="d-flex">
+                                <div class="me-3">
+                                    <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h5 class="alert-heading">Güncelleme Uyarıları</h5>
+                                    <p class="mb-0">
+                                        - Bu kategoriye bağlı ürünler varsa dikkatli olun<br />
+                                        - Kategori adı değişikliği SEO'yu etkileyebilir<br />
+                                        - Var olan bir kategori adı kullanılamaz
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-area="Admin" 
+                               asp-controller="Category" 
+                               asp-action="Index" 
+                               class="btn btn-outline-secondary btn-lg">
+                                <i class="fa fa-arrow-left"></i>
+                                Listeye Dön
+                            </a>
+                            <div class="btn-group">
+                                <button type="reset" class="btn btn-info btn-lg me-2">
+                                    <i class="fa fa-refresh"></i>
+                                    Değişiklikleri Sıfırla
+                                </button>
+                                <button type="submit" class="btn btn-warning btn-lg">
+                                    <i class="fa fa-save"></i>
+                                    Değişiklikleri Kaydet
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mt-4">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="fa fa-trash"></i>
+                        Tehlikeli Bölge
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger mb-0">
+                        <h5 class="alert-heading">
+                            <i class="fa fa-exclamation-circle"></i>
+                            Kategoriyi Sil
+                        </h5>
+                        <p>Bu kategoriyi silmek istiyorsanız, lütfen dikkatli olun. Bu işlem geri alınamaz ve kategoriye bağlı tüm ürünler etkilenecektir.</p>
+                        <hr>
+                        <div class="d-flex justify-content-end">
+                            <a asp-area="Admin" 
+                               asp-controller="Category" 
+                               asp-action="Delete" 
+                               asp-route-id="@Model.CategoryId"
+                               class="btn btn-danger"
+                               onclick="return confirm('Bu kategoriyi silmek istediğinizden emin misiniz?')">
+                                <i class="fa fa-trash"></i>
+                                Kategoriyi Sil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fa fa-info-circle"></i>
+                        Kategori Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Kategori ID
+                            <span class="badge bg-primary rounded-pill">@Model.CategoryId</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Mevcut İsim
+                            <span class="badge bg-info">@Model.CategoryName</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Ürün Sayısı
+                            <span class="badge bg-success rounded-pill">@await Component.InvokeAsync("CategoryProductCount", new { categoryId = Model.CategoryId })</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Son Güncelleme
+                            <span class="text-muted">@DateTime.Now.ToShortDateString()</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fa fa-lightbulb"></i>
+                        İpuçları
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="updateTips">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tip1">
+                                    SEO Önerileri
+                                </button>
+                            </h2>
+                            <div id="tip1" class="accordion-collapse collapse show" data-bs-parent="#updateTips">
+                                <div class="accordion-body">
+                                    Kategori adını değiştirirken SEO açısından benzer bir isim kullanmaya özen gösterin.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tip2">
+                                    Ürün İlişkileri
+                                </button>
+                            </h2>
+                            <div id="tip2" class="accordion-collapse collapse" data-bs-parent="#updateTips">
+                                <div class="accordion-body">
+                                    Bu kategoriye bağlı ürünlerin kategori ilişkileri otomatik olarak güncellenecektir.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    
+    <script>
+        // Form doğrulama için Bootstrap validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+        // Kategori adı için özel validasyon
+        $('#CategoryName').on('input', function() {
+            var categoryName = $(this).val();
+            if(categoryName.length < 3) {
+                $(this).addClass('is-invalid');
+                $(this).siblings('.text-danger').text('Kategori adı en az 3 karakter olmalıdır.');
+            } else if(/[^a-zA-ZğüşıöçĞÜŞİÖÇ\s]/.test(categoryName)) {
+                $(this).addClass('is-invalid');
+                $(this).siblings('.text-danger').text('Kategori adında özel karakter kullanılamaz.');
+            } else {
+                $(this).removeClass('is-invalid');
+                $(this).siblings('.text-danger').text('');
+            }
+        });
+
+        // Değişiklikleri izle ve uyarı göster
+        var originalName = $('#CategoryName').val();
+        $('form').on('submit', function(e) {
+            var currentName = $('#CategoryName').val();
+            if (currentName !== originalName) {
+                if (!confirm('Kategori adını değiştirmek üzeresiniz. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?')) {
+                    e.preventDefault();
+                }
+            }
+        });
+    </script>
+}

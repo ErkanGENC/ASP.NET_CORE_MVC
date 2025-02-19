@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
+      "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\default.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\default.jpg"
+    },
+    {
       "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\laptop.jpg",
       "PackagePath": "staticwebassets\\images\\products\\laptop.jpg"
     },

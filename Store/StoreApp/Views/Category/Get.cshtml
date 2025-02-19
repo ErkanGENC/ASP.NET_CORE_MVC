@@ -1,0 +1,29 @@
+@model Entities.Models.Category
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Category Details</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5 class="text-muted">Category ID</h5>
+                        <p class="lead">@Model.CategoryId</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5 class="text-muted">Category Name</h5>
+                        <p class="lead">@Model.CategoryName</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a asp-controller="Category" asp-action="Index" class="btn btn-outline-primary">Back to Categories</a>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Home Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

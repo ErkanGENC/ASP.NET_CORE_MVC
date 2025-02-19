@@ -1,0 +1,180 @@
+@model Product
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fa fa-edit"></i>
+                        Update Product
+                    </h4>
+                    <span class="badge bg-light text-primary">ID: @Model.Id</span>
+                </div>
+                <div class="card-body">
+                    <form asp-area="Admin" 
+                          asp-controller="Product" 
+                          asp-action="Update" 
+                          method="post"
+                          class="needs-validation">
+
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Name" 
+                                           class="form-control" 
+                                           placeholder="Product Name"
+                                           required />
+                                    <label asp-for="Name">Product Name</label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Price" 
+                                           class="form-control" 
+                                           type="number" 
+                                           step="0.01"
+                                           min="0"
+                                           placeholder="Price"
+                                           required />
+                                    <label asp-for="Price">Price (₺)</label>
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea asp-for="Description" 
+                                    class="form-control" 
+                                    style="height: 120px"
+                                    placeholder="Description"></textarea>
+                            <label asp-for="Description">Description</label>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ImageUrl" class="form-label">Product Image</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fa fa-image"></i>
+                                </span>
+                                <input asp-for="ImageUrl" 
+                                       class="form-control" 
+                                       placeholder="Enter URL" />
+                            </div>
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                            <div class="form-text">
+                                Default image will be used if no image URL is provided.
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-area="Admin" 
+                               asp-controller="Product" 
+                               asp-action="Index" 
+                               class="btn btn-outline-secondary">
+                                <i class="fa fa-arrow-left"></i>
+                                Back to List
+                            </a>
+                            <div class="btn-group">
+                                <button type="reset" class="btn btn-warning me-2">
+                                    <i class="fa fa-refresh"></i>
+                                    Reset Form
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-save"></i>
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fa fa-image"></i>
+                        Product Image Preview
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <img id="productImage" 
+                         src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "/images/products/default.jpg" : Model.ImageUrl)" 
+                         class="img-fluid rounded" 
+                         alt="@Model.Name"
+                         style="max-height: 300px;" />
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">
+                        <i class="fa fa-info-circle"></i>
+                        Product Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Product ID
+                            <span class="badge bg-primary rounded-pill">@Model.Id</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Created Date
+                            <span class="text-muted">@DateTime.Now.ToShortDateString()</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Last Update
+                            <span class="text-muted">@DateTime.Now.ToShortDateString()</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    
+    <script>
+        // Bootstrap validation for form
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+        // Update preview when image URL changes
+        document.getElementById('ImageUrl').addEventListener('change', function() {
+            var imageUrl = this.value || '/images/products/default.jpg';
+            document.getElementById('productImage').src = imageUrl;
+        });
+
+        // Special validation for Turkish decimal format
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+    </script>
+}

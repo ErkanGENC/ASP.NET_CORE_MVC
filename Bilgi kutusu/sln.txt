@@ -1,0 +1,8 @@
+*bir çözüm çözüm klasörü işlemleri için ; 
+
+- öncelikle ilgili klasöre locate oluyoruz. ve sln klasörü ile ilişkilendireceğimiz klasörü oluşturuyoruz.Oluştururken de şu kodu kullanıyoruz; 
+*dotnet new classlib -f net6.0 -o 'Klasör_Adi'.
+
+-şimdi ise bu klasörü çözüm klasörüne ekliyoruz;
+*dotnet sln 'sln'nin path' add 'klasörünün path'.
+
