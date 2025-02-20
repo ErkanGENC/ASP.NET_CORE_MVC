@@ -1,0 +1,173 @@
+@{
+    ViewData["Title"] = "İletişim";
+}
+
+<div class="container mt-4">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i> @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-envelope"></i> Bize Ulaşın
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Adınız Soyadınız</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback">
+                                    Lütfen adınızı ve soyadınızı giriniz.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-posta Adresiniz</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-at"></i>
+                                </span>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="invalid-feedback">
+                                    Lütfen geçerli bir e-posta adresi giriniz.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Konu</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-heading"></i>
+                                </span>
+                                <input type="text" class="form-control" id="subject" name="subject" required>
+                                <div class="invalid-feedback">
+                                    Lütfen bir konu giriniz.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Mesajınız</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-comment"></i>
+                                </span>
+                                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                <div class="invalid-feedback">
+                                    Lütfen mesajınızı giriniz.
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Mesaj Gönder
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-map-marker-alt"></i> İletişim Bilgilerimiz
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="mb-3">
+                        <i class="fas fa-building me-2"></i> Şirket Bilgileri
+                    </h6>
+                    <p>Store App A.Ş.</p>
+                    <p>Vergi No: 1234567890</p>
+                    <p>Ticaret Sicil No: 123456</p>
+
+                    <hr>
+
+                    <h6 class="mb-3">
+                        <i class="fas fa-location-dot me-2"></i> Adres
+                    </h6>
+                    <p>Atatürk Caddesi No:123</p>
+                    <p>Çankaya/Ankara</p>
+
+                    <hr>
+
+                    <h6 class="mb-3">
+                        <i class="fas fa-phone me-2"></i> Telefon
+                    </h6>
+                    <p>+90 (312) 123 45 67</p>
+                    <p>+90 (555) 123 45 67</p>
+
+                    <hr>
+
+                    <h6 class="mb-3">
+                        <i class="fas fa-envelope me-2"></i> E-posta
+                    </h6>
+                    <p>info@storeapp.com</p>
+                    <p>destek@storeapp.com</p>
+
+                    <hr>
+
+                    <h6 class="mb-3">
+                        <i class="fas fa-clock me-2"></i> Çalışma Saatleri
+                    </h6>
+                    <p>Pazartesi - Cuma: 09:00 - 18:00</p>
+                    <p>Cumartesi: 10:00 - 14:00</p>
+                    <p>Pazar: Kapalı</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-map"></i> Harita
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3060.5485474297882!2d32.85833687573354!3d39.91901897151726!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34f190a9cea8f%3A0xd3862ea8248d302a!2zS8SxesSxbGF5LCBBbmthcmE!5e0!3m2!1str!2str!4v1708459663044!5m2!1str!2str" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Bootstrap form validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+} 

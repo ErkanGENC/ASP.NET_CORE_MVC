@@ -10,11 +10,34 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using StoreApp.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using StoreApp.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(); // mvc için servis kaydı yapıldı.
+builder.Services.AddRazorPages();//razer pages için servis kaydı yapıldı.
+
+// Session yapılandırması
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "StoreApp.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddHttpContextAccessor();
+
+// Cart servisi için SessionCart yapılandırması
+builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+
 builder.Services.AddDbContext<RepositoryContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection"),
@@ -33,6 +56,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+
 // Seed Data'yı uygula
 ((IApplicationBuilder)app).ConfigureAndSeedDb();
 
@@ -50,6 +74,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 
@@ -64,6 +89,8 @@ app.UseEndpoints(endpoints =>
         pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute( "default","{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapRazorPages();
 
 });
 app.Run();

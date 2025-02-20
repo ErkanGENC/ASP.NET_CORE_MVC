@@ -1,18 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - StoreApp</title>
+    <title>@ViewData["Title"] - Store App</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     @await RenderSectionAsync("Css", required: false)
+    <style>
+        .navbar {
+            background-color: #2c3e50 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: #ecf0f1 !important;
+        }
+
+        .nav-link:hover {
+            color: #3498db !important;
+        }
+
+        .nav-link.active {
+            color: #3498db !important;
+            font-weight: bold;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 0 10px rgba(0,0,0,.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: -5px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            background: #e74c3c;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .page-header {
+            background: #f8f9fa;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .page-title {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #2c3e50;
+            color: #ecf0f1 !important;
+            padding: 1rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer a {
+            color: #3498db;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 0 10px rgba(0,0,0,.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
     <header>
-        @await Html.PartialAsync("_Navbar", ViewContext.HttpContext.Request.Path)
+        @await Html.PartialAsync("_Navbar")
     </header>
+
+    @if (ViewData["Title"] != null)
+    {
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">@ViewData["Title"]</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    }
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -20,16 +113,39 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container text-center">
-            &copy; 2024 - StoreApp - Made with <i class="fa fa-heart text-danger"></i>
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Hakkımızda</h5>
+                    <p>En kaliteli ürünleri en uygun fiyatlarla sunuyoruz.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Hızlı Linkler</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/">Anasayfa</a></li>
+                        <li><a href="/Product">Ürünler</a></li>
+                        <li><a href="/Cart">Sepetim</a></li>
+                        <li><a href="/Contact">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>İletişim</h5>
+                    <p>
+                        <i class="fas fa-envelope me-2"></i> info@store.com<br>
+                        <i class="fas fa-phone me-2"></i> +90 555 123 4567
+                    </p>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <p class="mb-0">
+                &copy; @DateTime.Now.Year - Store App - Made with <i class="fas fa-heart text-danger"></i>
+            </p>
         </div>
     </footer>
 
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

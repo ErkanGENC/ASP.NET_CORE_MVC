@@ -9,6 +9,7 @@
   },
   "profiles": {
     "StoreApp": {
+      "hotReloadEnabled": true,
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
@@ -18,6 +19,7 @@
       }
     },
     "IIS Express": {
+      "hotReloadEnabled": true,
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {

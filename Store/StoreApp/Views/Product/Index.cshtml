@@ -1,41 +1,198 @@
 @model IEnumerable<Entities.Models.Product>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Product List";
+    ViewData["Title"] = "Ürün Listesi";
 }
-<div class="row">
-    <div class="col-md-3">
-        @await Component.InvokeAsync("CategoriesMenu")
-    </div>
-    <div class="col-md-9">
-        <div class="container mt-4">
-            <h2 class="text-center mb-4">Product List</h2>
-            <table class="table table-hover table-bordered">
-                <thead>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Ürün Listesi</h2>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Görsel</th>
+                    <th>Ürün Adı</th>
+                    <th>Fiyat</th>
+                    <th>Açıklama</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Description</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Model)
-                    {
-                        <tr>
-                            <td>@product.Id</td>
-                            <td>@product.Name</td>
-                            <td>@product.Price ₺</td>
-                            <td>@product.Description</td>
-                            <td>
+                        <td>@product.Id</td>
+                        <td><img src="@product.ImageUrl" alt="@product.Name" style="width: 100px; height: 100px;"></td>
+                        <td>@product.Name</td>
+                        <td>@product.Price.ToString("C2")</td>
+                        <td>@product.Description</td>
+                        <td>
+                            <div class="btn-group">
                                 <a asp-controller="Product" asp-action="Get" asp-route-id="@product.Id"
-                                    class="btn btn-primary">Details</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                                    class="btn btn-info">
+                                    <i class="fas fa-info-circle"></i> Detaylar
+                                </a>
+                                <button type="button" class="btn btn-success" onclick="openCartModal(@product.Id)">
+                                    <i class="fas fa-cart-plus"></i> Sepete Ekle
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
+
+@foreach (var product in Model)
+{
+    <!-- Sepete Ekle Modal -->
+    <div class="modal fade" id="addToCartModal-@product.Id" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-cart-plus"></i> Sepete Ekle - @product.Name
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-page="/Cart/Cart" asp-page-handler="Add" method="post" class="needs-validation" novalidate>
+                    <input type="hidden" name="id" value="@product.Id" />
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-header bg-primary text-white">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-user"></i> Müşteri Bilgileri
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Ad Soyad</label>
+                                            <input type="text" class="form-control" name="customerName" required>
+                                            <div class="invalid-feedback">
+                                                Lütfen adınızı ve soyadınızı giriniz.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">E-posta</label>
+                                            <input type="email" class="form-control" name="email" required>
+                                            <div class="invalid-feedback">
+                                                Lütfen geçerli bir e-posta adresi giriniz.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Telefon</label>
+                                            <input type="tel" class="form-control" name="phone" required>
+                                            <div class="invalid-feedback">
+                                                Lütfen telefon numaranızı giriniz.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-info text-white">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-map-marker-alt"></i> Teslimat Adresi
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Adres</label>
+                                            <textarea class="form-control" name="address" rows="3" required></textarea>
+                                            <div class="invalid-feedback">
+                                                Lütfen teslimat adresini giriniz.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Şehir</label>
+                                            <input type="text" class="form-control" name="city" required>
+                                            <div class="invalid-feedback">
+                                                Lütfen şehir bilgisini giriniz.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Posta Kodu</label>
+                                            <input type="text" class="form-control" name="postalCode" required>
+                                            <div class="invalid-feedback">
+                                                Lütfen posta kodunu giriniz.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-header bg-warning text-dark">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-box"></i> Sipariş Detayları
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-3">
+                                        <img src="@product.ImageUrl" alt="@product.Name" 
+                                             class="img-fluid rounded">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>@product.Name</h5>
+                                        <p class="text-muted">@product.Description</p>
+                                        <h6 class="text-primary">@product.Price.ToString("C2")</h6>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Adet</label>
+                                        <input type="number" class="form-control" name="quantity" 
+                                               value="1" min="1" required>
+                                        <div class="invalid-feedback">
+                                            Lütfen geçerli bir miktar giriniz.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times"></i> İptal
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Modal açma fonksiyonu
+        function openCartModal(productId) {
+            var modalId = '#addToCartModal-' + productId;
+            var myModal = new bootstrap.Modal(document.querySelector(modalId));
+            myModal.show();
+        }
+
+        // Form validasyonu
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}

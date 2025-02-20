@@ -1,0 +1,173 @@
+@page
+@model CartModel
+
+<div class="container mt-4">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i> @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="fas fa-shopping-cart"></i> Sepetim
+            </h4>
+            <span class="badge bg-light text-primary">
+                @Model.Cart.Lines.Sum(l => l.Quantity) Ürün
+            </span>
+        </div>
+        <div class="card-body">
+            @if (Model.Cart?.Lines.Count() > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Ürün</th>
+                                <th>Adet</th>
+                                <th class="text-end">Fiyat</th>
+                                <th class="text-end">Toplam</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var line in Model.Cart.Lines)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="@line.Product.ImageUrl" 
+                                                 alt="@line.Product.Name"
+                                                 class="img-thumbnail me-3"
+                                                 style="width: 50px; height: 50px;" />
+                                            <div>
+                                                <h6 class="mb-0">@line.Product.Name</h6>
+                                                <small class="text-muted">@line.Product.Description</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group" style="width: 130px;">
+                                            <button class="btn btn-outline-secondary" 
+                                                    type="button"
+                                                    onclick="updateQuantity(@line.Product.Id, -1)">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="number" 
+                                                   class="form-control text-center" 
+                                                   value="@line.Quantity"
+                                                   min="1"
+                                                   onchange="updateQuantity(@line.Product.Id, this.value)" />
+                                            <button class="btn btn-outline-secondary" 
+                                                    type="button"
+                                                    onclick="updateQuantity(@line.Product.Id, 1)">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">@line.Product.Price.ToString("C2")</td>
+                                    <td class="text-end">@((line.Quantity * line.Product.Price).ToString("C2"))</td>
+                                    <td class="text-end">
+                                        <form asp-page-handler="Remove" method="post" style="display: inline;">
+                                            <input type="hidden" name="id" value="@line.Product.Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Toplam:</strong></td>
+                                <td class="text-end">
+                                    <strong>@Model.Cart.ComputeTotalValue().ToString("C2")</strong>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-controller="Home" 
+                       asp-action="Index" 
+                       class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        Alışverişe Devam Et
+                    </a>
+                    <div class="btn-group">
+                        <form asp-page-handler="Clear" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-outline-danger me-2">
+                                <i class="fas fa-trash"></i>
+                                Sepeti Temizle
+                            </button>
+                        </form>
+                        <a href="#" class="btn btn-success">
+                            <i class="fas fa-check"></i>
+                            Siparişi Tamamla
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+                    <h5>Sepetiniz boş</h5>
+                    <p class="text-muted">Henüz sepetinize ürün eklemediniz.</p>
+                    <a asp-controller="Product" 
+                       asp-action="Index" 
+                       class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        Alışverişe Başla
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateQuantity(productId, quantity) {
+            let currentInput = document.querySelector(`input[onchange="updateQuantity(${productId}, this.value)"]`);
+            let currentValue = parseInt(currentInput.value);
+
+            if (typeof quantity === 'string') {
+                // Direkt input değeri girildiğinde
+                currentInput.value = quantity;
+            } else {
+                // Artır/Azalt butonları kullanıldığında
+                let newValue = currentValue + quantity;
+                if (newValue >= 1) {
+                    currentInput.value = newValue;
+                }
+            }
+
+            // Form oluştur ve gönder
+            let form = document.createElement('form');
+            form.method = 'post';
+            form.action = '?handler=UpdateQuantity';
+
+            let idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id';
+            idInput.value = productId;
+
+            let quantityInput = document.createElement('input');
+            quantityInput.type = 'hidden';
+            quantityInput.name = 'quantity';
+            quantityInput.value = currentInput.value;
+
+            form.appendChild(idInput);
+            form.appendChild(quantityInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+} 

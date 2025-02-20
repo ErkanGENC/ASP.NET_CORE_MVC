@@ -27,6 +27,7 @@
                 <div class="card-footer">
                     <div class="d-flex justify-content-between">
                             <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary">Back to Products</a>
+                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-outline-success">Sepete ekle</a>
                             <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Home Page</a>
                     </div>
                 </div>

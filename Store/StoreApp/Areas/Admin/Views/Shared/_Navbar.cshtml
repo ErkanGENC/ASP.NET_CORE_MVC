@@ -1,5 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
+                <a class="navbar-brand icon-brand position-fixed start-0 ms-3" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i> 
+                </a>
                 <a class="navbar-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
                     <i class="fas fa-shield-alt"></i> Admin Panel
                 </a>
@@ -28,8 +31,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link position-relative @(ViewContext.RouteData.Values["controller"]?.ToString() == "Order" ? "active" : "")"
-                               asp-area="Admin" asp-controller="Order" asp-action="Index">
+                            <a class="nav-link position-relative @(ViewContext.RouteData.Values["page"]?.ToString() == "/Cart" ? "active" : "")"
+                               asp-page="/Cart/Cart">
                                 <i class="fas fa-shopping-cart"></i> Siparişler
                                 <span class="notification-badge">5</span>
                             </a>

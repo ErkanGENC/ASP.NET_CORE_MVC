@@ -18,6 +18,7 @@
         <thead class="table-dark">
             <tr>
                 <th>Id</th>
+                <th>Ürün Resmi</th>
                 <th>Ürün Adı</th>
                 <th>Kategori</th>
                 <th>Fiyat</th>
@@ -29,6 +30,7 @@
             {
                 <tr>
                     <td>@product.Id</td>
+                    <td><img src="@product.ImageUrl" alt="@product.Name" style="width: 100px; height: 100px;"></td>
                     <td>@product.Name</td>
                     <td>@(product.CategoryName ?? "Kategorisiz")</td>
                     <td>₺@product.Price.ToString("N2")</td>
