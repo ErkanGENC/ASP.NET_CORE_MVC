@@ -20,8 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews(); // mvc için servis kaydı yapıldı.
-builder.Services.AddRazorPages();//razer pages için servis kaydı yapıldı.
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); // RuntimeCompilation eklendi
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation(); // RuntimeCompilation eklendi
 
 // Session yapılandırması
 builder.Services.AddDistributedMemoryCache();
@@ -49,6 +49,7 @@ builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // API için gerekli servisler
 builder.Services.AddEndpointsApiExplorer();

@@ -4,94 +4,109 @@ using Services.Abstract;
 using StoreApp.Infrastructure.Extensions;
 using StoreApp.Models;
 using Entities.Models;
-using Entities.Dtos;
 
-namespace StoreApp.Pages.Cart
+namespace StoreApp.Pages
 {
     public class CartModel : PageModel
     {
         private readonly IServiceManager _manager;
-        private readonly Models.Cart _cart;
-
-        public Models.Cart Cart => _cart;
+        private readonly Cart _cart;
 
         [TempData]
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
-        public CartModel(IServiceManager manager, Models.Cart cartService)
+        public CartModel(IServiceManager manager, Cart cartService)
         {
             _manager = manager;
             _cart = cartService;
         }
 
-        public void OnGet()
+        public Cart Cart => _cart;
+        public string ReturnUrl { get; set; } = "/";
+
+        public void OnGet(string returnUrl)
         {
-            // Sayfa yüklendiğinde yapılacak işlemler
+            ReturnUrl = returnUrl ?? "/";
         }
 
-        private Product ConvertToProduct(ProductDto dto)
+        public async Task<IActionResult> OnPostAddAsync(int id, string returnUrl)
         {
-            return new Product
+            try
             {
-                Id = dto.Id,
-                Name = dto.Name,
-                Price = dto.Price,
-                ImageUrl = dto.ImageUrl,
-                Description = dto.Description,
-                CategoryId = dto.CategoryId
-            };
-        }
+                var product = await _manager.ProductService.GetProductByIdAsync(id);
+                if (product != null)
+                {
+                    var productModel = new Product
+                    {
+                        Id = product.Id,
+                        Name = product.Name,
+                        Price = product.Price,
+                        ImageUrl = product.ImageUrl,
+                        Description = product.Description
+                    };
 
-        public IActionResult OnPostAdd(int id, int quantity = 1, string customerName = "", 
-            string email = "", string phone = "", string address = "", string city = "", string postalCode = "")
-        {
-            var productDto = _manager.ProductService.GetProductByIdAsync(id).Result;
-            if (productDto != null)
-            {
-                var product = ConvertToProduct(productDto);
-                Cart.AddItem(product, quantity);
-
-                // Müşteri bilgilerini TempData'ya kaydedelim
-                TempData["CustomerName"] = customerName;
-                TempData["Email"] = email;
-                TempData["Phone"] = phone;
-                TempData["Address"] = address;
-                TempData["City"] = city;
-                TempData["PostalCode"] = postalCode;
-
-                Message = "Ürün başarıyla sepete eklendi.";
+                    _cart.AddItem(productModel, 1);
+                    Message = $"{product.Name} başarıyla sepete eklendi.";
+                }
+                else
+                {
+                    Message = "Ürün bulunamadı.";
+                }
             }
-            return RedirectToPage();
+            catch (Exception ex)
+            {
+                Message = $"Hata: {ex.Message}";
+            }
+            return RedirectToPage(new { returnUrl = returnUrl });
         }
 
         public IActionResult OnPostRemove(int id)
         {
-            var productDto = _manager.ProductService.GetProductByIdAsync(id).Result;
-            if (productDto != null)
+            var product = _cart.Lines.FirstOrDefault(cl => cl.Product.Id == id)?.Product;
+            if (product != null)
             {
-                var product = ConvertToProduct(productDto);
-                Cart.RemoveLine(product);
+                _cart.RemoveLine(product);
                 Message = "Ürün sepetten kaldırıldı.";
-            }
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostUpdateQuantity(int id, int quantity)
-        {
-            var productDto = _manager.ProductService.GetProductByIdAsync(id).Result;
-            if (productDto != null)
-            {
-                var product = ConvertToProduct(productDto);
-                Cart.UpdateQuantity(product, quantity);
-                Message = "Ürün miktarı güncellendi.";
             }
             return RedirectToPage();
         }
 
         public IActionResult OnPostClear()
         {
-            Cart.Clear();
+            _cart.Clear();
             Message = "Sepet temizlendi.";
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostUpdateQuantity(int id, int quantity)
+        {
+            try
+            {
+                if (quantity < 1)
+                {
+                    quantity = 1;
+                }
+                else if (quantity > 100)
+                {
+                    quantity = 100;
+                }
+
+                var product = _cart.Lines.FirstOrDefault(cl => cl.Product.Id == id)?.Product;
+                if (product != null)
+                {
+                    _cart.UpdateQuantity(product, quantity);
+                    Message = "Ürün miktarı güncellendi.";
+                }
+                else
+                {
+                    Message = "Ürün bulunamadı.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = $"Hata: {ex.Message}";
+            }
+
             return RedirectToPage();
         }
     }

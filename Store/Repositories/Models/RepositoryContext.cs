@@ -11,6 +11,8 @@ namespace Repositories.Models
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderLine> OrderLines { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +37,20 @@ namespace Repositories.Models
                 .Property(c => c.CategoryName)
                 .IsRequired()
                 .HasMaxLength(100);
+
+            // Order - OrderLine ilişkisi
+            modelBuilder.Entity<OrderLine>()
+                .HasOne(ol => ol.Order)
+                .WithMany(o => o.Lines)
+                .HasForeignKey(ol => ol.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // OrderLine - Product ilişkisi
+            modelBuilder.Entity<OrderLine>()
+                .HasOne(ol => ol.Product)
+                .WithMany()
+                .HasForeignKey(ol => ol.ProductId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             base.OnModelCreating(modelBuilder);
         }

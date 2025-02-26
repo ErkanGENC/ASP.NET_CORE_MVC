@@ -1,173 +1,392 @@
 @page
-@model CartModel
+@model StoreApp.Pages.CartModel
+@{
+    Layout = "_Layout";
+}
 
-<div class="container mt-4">
-    @if (TempData["Message"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i> @TempData["Message"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">
-                <i class="fas fa-shopping-cart"></i> Sepetim
-            </h4>
-            <span class="badge bg-light text-primary">
-                @Model.Cart.Lines.Sum(l => l.Quantity) Ürün
-            </span>
-        </div>
-        <div class="card-body">
-            @if (Model.Cart?.Lines.Count() > 0)
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Ürün</th>
-                                <th>Adet</th>
-                                <th class="text-end">Fiyat</th>
-                                <th class="text-end">Toplam</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var line in Model.Cart.Lines)
-                            {
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="@line.Product.ImageUrl" 
-                                                 alt="@line.Product.Name"
-                                                 class="img-thumbnail me-3"
-                                                 style="width: 50px; height: 50px;" />
-                                            <div>
-                                                <h6 class="mb-0">@line.Product.Name</h6>
-                                                <small class="text-muted">@line.Product.Description</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group" style="width: 130px;">
-                                            <button class="btn btn-outline-secondary" 
-                                                    type="button"
-                                                    onclick="updateQuantity(@line.Product.Id, -1)">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <input type="number" 
-                                                   class="form-control text-center" 
-                                                   value="@line.Quantity"
-                                                   min="1"
-                                                   onchange="updateQuantity(@line.Product.Id, this.value)" />
-                                            <button class="btn btn-outline-secondary" 
-                                                    type="button"
-                                                    onclick="updateQuantity(@line.Product.Id, 1)">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">@line.Product.Price.ToString("C2")</td>
-                                    <td class="text-end">@((line.Quantity * line.Product.Price).ToString("C2"))</td>
-                                    <td class="text-end">
-                                        <form asp-page-handler="Remove" method="post" style="display: inline;">
-                                            <input type="hidden" name="id" value="@line.Product.Id" />
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3" class="text-end"><strong>Toplam:</strong></td>
-                                <td class="text-end">
-                                    <strong>@Model.Cart.ComputeTotalValue().ToString("C2")</strong>
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-
-                <div class="d-flex justify-content-between mt-4">
-                    <a asp-controller="Home" 
-                       asp-action="Index" 
-                       class="btn btn-outline-primary">
-                        <i class="fas fa-arrow-left"></i>
-                        Alışverişe Devam Et
-                    </a>
-                    <div class="btn-group">
-                        <form asp-page-handler="Clear" method="post" style="display: inline;">
-                            <button type="submit" class="btn btn-outline-danger me-2">
-                                <i class="fas fa-trash"></i>
-                                Sepeti Temizle
-                            </button>
-                        </form>
-                        <a href="#" class="btn btn-success">
-                            <i class="fas fa-check"></i>
-                            Siparişi Tamamla
-                        </a>
+<div class="container-fluid py-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert custom-alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                <div class="d-flex align-items-center">
+                    <div class="alert-icon me-3">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                    <div>
+                        <h6 class="alert-heading mb-1">Başarılı!</h6>
+                        <span>@TempData["Message"]</span>
                     </div>
                 </div>
-            }
-            else
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm mb-4 overflow-hidden">
+                    <div class="card-header border-0 bg-gradient text-white py-3" 
+                         style="background: linear-gradient(45deg, #3498db, #2980b9);">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <div class="cart-icon-wrapper me-3">
+                                    <i class="fas fa-shopping-cart fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h4 class="mb-0">Alışveriş Sepetim</h4>
+                                    <small class="opacity-75">Ürünlerinizi gözden geçirin</small>
+                                </div>
+                            </div>
+                            <div class="cart-badge">
+                                <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+                                    <i class="fas fa-box me-1"></i> @Model.Cart.TotalItems() Ürün
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (Model.Cart.Lines.Count() > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0 custom-table">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th class="ps-4 py-3">Ürün Detayı</th>
+                                            <th class="text-center" style="width: 200px;">Miktar</th>
+                                            <th class="text-end">Birim Fiyat</th>
+                                            <th class="text-end pe-4">Toplam</th>
+                                            <th class="text-center">İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var line in Model.Cart.Lines)
+                                        {
+                                            <tr class="product-row">
+                                                <td class="ps-4">
+                                                    <div class="d-flex align-items-center py-2">
+                                                        <div class="product-img-wrapper me-3">
+                                                            <img src="@line.Product.ImageUrl" alt="@line.Product.Name"
+                                                                 class="product-img rounded-3">
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h6 class="product-name mb-1">@line.Product.Name</h6>
+                                                            <p class="product-desc mb-0">@line.Product.Description</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <form method="post" asp-page-handler="UpdateQuantity" class="quantity-form mx-auto" data-product-id="@line.Product.Id">
+                                                        <input type="hidden" name="id" value="@line.Product.Id">
+                                                        <div class="input-group input-group-sm quantity-wrapper">
+                                                            <button type="button" class="btn btn-outline-secondary quantity-btn decrease-btn"
+                                                                    @(line.Quantity <= 1 ? "disabled" : "")>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="number" name="quantity" value="@line.Quantity"
+                                                                   class="form-control quantity-input text-center"
+                                                                   min="1" max="100" readonly>
+                                                            <button type="button" class="btn btn-outline-secondary quantity-btn increase-btn">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span class="price">₺@line.Product.Price.ToString("N2")</span>
+                                                </td>
+                                                <td class="text-end pe-4">
+                                                    <span class="total-price">₺@((line.Product.Price * line.Quantity).ToString("N2"))</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <form method="post" asp-page-handler="Remove" class="d-inline">
+                                                        <input type="hidden" name="id" value="@line.Product.Id">
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm remove-btn"
+                                                                data-bs-toggle="tooltip" title="Ürünü Kaldır">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="empty-cart text-center py-5">
+                                <div class="empty-cart-icon mb-4">
+                                    <i class="fas fa-shopping-cart fa-4x text-muted"></i>
+                                </div>
+                                <h5 class="mb-3">Sepetiniz Boş</h5>
+                                <p class="text-muted mb-4">Hemen alışverişe başlayın ve sepetinizi doldurun!</p>
+                                <a asp-controller="Product" asp-action="Index" 
+                                   class="btn btn-primary btn-lg rounded-pill px-5 py-2 start-shopping-btn">
+                                    <i class="fas fa-shopping-bag me-2"></i> Alışverişe Başla
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                @if (Model.Cart.Lines.Count() > 0)
+                {
+                    <div class="d-flex flex-wrap gap-3 mb-4">
+                        <a asp-controller="Product" asp-action="Index" 
+                           class="btn btn-outline-primary rounded-pill px-4 continue-shopping-btn">
+                            <i class="fas fa-arrow-left me-2"></i> Alışverişe Devam Et
+                        </a>
+                        <form method="post" asp-page-handler="Clear" class="d-inline">
+                            <button type="submit" class="btn btn-outline-danger rounded-pill px-4 clear-cart-btn">
+                                <i class="fas fa-trash me-2"></i> Sepeti Temizle
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
+
+            @if (Model.Cart.Lines.Count() > 0)
             {
-                <div class="text-center py-5">
-                    <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
-                    <h5>Sepetiniz boş</h5>
-                    <p class="text-muted">Henüz sepetinize ürün eklemediniz.</p>
-                    <a asp-controller="Product" 
-                       asp-action="Index" 
-                       class="btn btn-primary">
-                        <i class="fas fa-arrow-left"></i>
-                        Alışverişe Başla
-                    </a>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm sticky-top" style="top: 2rem;">
+                        <div class="card-header bg-light border-0 py-3">
+                            <h5 class="mb-0">
+                                <i class="fas fa-receipt me-2"></i> Sipariş Özeti
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="summary-item d-flex justify-content-between mb-3">
+                                <span class="text-muted">Ara Toplam</span>
+                                <strong>₺@Model.Cart.ComputeTotalValue().ToString("N2")</strong>
+                            </div>
+                            <div class="summary-item d-flex justify-content-between mb-3">
+                                <span class="text-muted">Kargo</span>
+                                <span class="text-success">Ücretsiz</span>
+                            </div>
+                            <hr class="my-4">
+                            <div class="summary-total d-flex justify-content-between mb-4">
+                                <span class="h5 mb-0">Genel Toplam</span>
+                                <span class="h5 mb-0 text-primary">₺@Model.Cart.ComputeTotalValue().ToString("N2")</span>
+                            </div>
+                            <a asp-controller="Order" asp-action="Checkout" class="btn btn-success btn-lg w-100 rounded-pill checkout-btn">
+                                <i class="fas fa-check me-2"></i> Siparişi Tamamla
+                            </a>
+                            <div class="secure-checkout text-center mt-4">
+                                <i class="fas fa-lock me-2"></i>
+                                <span class="text-muted">Güvenli Ödeme</span>
+                                <div class="payment-icons mt-3">
+                                    <i class="fab fa-cc-visa mx-2"></i>
+                                    <i class="fab fa-cc-mastercard mx-2"></i>
+                                    <i class="fab fa-cc-amex mx-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        function updateQuantity(productId, quantity) {
-            let currentInput = document.querySelector(`input[onchange="updateQuantity(${productId}, this.value)"]`);
-            let currentValue = parseInt(currentInput.value);
+@section Styles {
+    <style>
+        /* Custom Styles */
+        .custom-alert {
+            border-radius: 15px;
+        }
 
-            if (typeof quantity === 'string') {
-                // Direkt input değeri girildiğinde
-                currentInput.value = quantity;
-            } else {
-                // Artır/Azalt butonları kullanıldığında
-                let newValue = currentValue + quantity;
-                if (newValue >= 1) {
-                    currentInput.value = newValue;
-                }
+        .alert-icon {
+            color: #198754;
+        }
+
+        .cart-icon-wrapper {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 50%;
+        }
+
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-img:hover {
+            transform: scale(1.1);
+        }
+
+        .product-name {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .product-desc {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        .quantity-wrapper {
+            width: 120px;
+        }
+
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .quantity-input {
+            text-align: center;
+            border: none;
+            background: #f8f9fa;
+            font-weight: 600;
+            -moz-appearance: textfield;
+        }
+
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .quantity-input:focus {
+            box-shadow: none;
+            background: #fff;
+        }
+
+        .remove-btn {
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background-color: #dc3545;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .price, .total-price {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .total-price {
+            color: #3498db;
+        }
+
+        .empty-cart-icon {
+            animation: bounce-animation 2s infinite;
+        }
+
+        .payment-icons {
+            font-size: 2rem;
+            color: #6c757d;
+        }
+
+        .start-shopping-btn, .continue-shopping-btn, .clear-cart-btn, .checkout-btn {
+            transition: transform 0.3s;
+        }
+
+        .start-shopping-btn:hover, .continue-shopping-btn:hover, 
+        .clear-cart-btn:hover, .checkout-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @@keyframes bounce-animation {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        @@media (max-width: 768px) {
+            .quantity-wrapper {
+                width: 100px;
             }
 
-            // Form oluştur ve gönder
-            let form = document.createElement('form');
-            form.method = 'post';
-            form.action = '?handler=UpdateQuantity';
-
-            let idInput = document.createElement('input');
-            idInput.type = 'hidden';
-            idInput.name = 'id';
-            idInput.value = productId;
-
-            let quantityInput = document.createElement('input');
-            quantityInput.type = 'hidden';
-            quantityInput.name = 'quantity';
-            quantityInput.value = currentInput.value;
-
-            form.appendChild(idInput);
-            form.appendChild(quantityInput);
-            document.body.appendChild(form);
-            form.submit();
+            .product-img {
+                width: 60px;
+                height: 60px;
+            }
         }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Auto-hide alerts
+        window.setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 3000);
+
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        // Quantity update functionality
+        document.querySelectorAll('.quantity-form').forEach(function(form) {
+            const input = form.querySelector('.quantity-input');
+            const decreaseBtn = form.querySelector('.decrease-btn');
+            const increaseBtn = form.querySelector('.increase-btn');
+            const productId = form.getAttribute('data-product-id');
+
+            function updateQuantity(newQuantity) {
+                const formData = new FormData();
+                formData.append('id', productId);
+                formData.append('quantity', newQuantity);
+
+                fetch('?handler=UpdateQuantity', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    }
+                });
+            }
+
+            decreaseBtn.addEventListener('click', function() {
+                const currentValue = parseInt(input.value);
+                if (currentValue > 1) {
+                    updateQuantity(currentValue - 1);
+                }
+            });
+
+            increaseBtn.addEventListener('click', function() {
+                const currentValue = parseInt(input.value);
+                if (currentValue < 100) {
+                    updateQuantity(currentValue + 1);
+                }
+            });
+        });
+
+        // Hover effects
+        document.querySelectorAll('.quantity-btn').forEach(function(button) {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
     </script>
-} 
+}

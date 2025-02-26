@@ -1,0 +1,156 @@
+@model Order
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0">
+                        <i class="fas fa-shopping-cart me-2"></i>Sipariş Detayları
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Checkout" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Name" class="form-control" placeholder="Adınız" />
+                                    <label asp-for="Name">Adınız</label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="LastName" class="form-control" placeholder="Soyadınız" />
+                                    <label asp-for="LastName">Soyadınız</label>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" placeholder="Email" />
+                            <label asp-for="Email">Email</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Phone" class="form-control" placeholder="Telefon" />
+                            <label asp-for="Phone">Telefon</label>
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Address1" class="form-control" placeholder="Adres 1" />
+                            <label asp-for="Address1">Adres 1</label>
+                            <span asp-validation-for="Address1" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Address2" class="form-control" placeholder="Adres 2 (Opsiyonel)" />
+                            <label asp-for="Address2">Adres 2 (Opsiyonel)</label>
+                            <span asp-validation-for="Address2" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input asp-for="City" class="form-control" placeholder="Şehir" />
+                                    <label asp-for="City">Şehir</label>
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input asp-for="District" class="form-control" placeholder="İlçe" />
+                                    <label asp-for="District">İlçe</label>
+                                    <span asp-validation-for="District" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input asp-for="PostalCode" class="form-control" placeholder="Posta Kodu" />
+                                    <label asp-for="PostalCode">Posta Kodu</label>
+                                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="GiftWrap" class="form-check-input" type="checkbox" />
+                            <label asp-for="GiftWrap" class="form-check-label">
+                                Hediye Paketi İstiyorum (+₺20.00)
+                            </label>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">Sipariş Özeti</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td>Ara Toplam:</td>
+                                                <td class="text-end">₺@ViewBag.Cart.ComputeTotalValue().ToString("N2")</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kargo:</td>
+                                                <td class="text-end">₺29.90</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hediye Paketi:</td>
+                                                <td class="text-end" id="giftWrapPrice">₺0.00</td>
+                                            </tr>
+                                            <tr class="fw-bold">
+                                                <td>Genel Toplam:</td>
+                                                <td class="text-end" id="totalPrice">
+                                                    ₺@((ViewBag.Cart.ComputeTotalValue() + 29.90m).ToString("N2"))
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-check me-2"></i>Siparişi Tamamla
+                            </button>
+                            <a asp-page="/Cart/Cart" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Sepete Geri Dön
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        // Hediye paketi fiyat hesaplama
+        $(document).ready(function () {
+            $('#GiftWrap').change(function () {
+                updateTotalPrice();
+            });
+
+            function updateTotalPrice() {
+                var subtotal = @ViewBag.Cart.ComputeTotalValue();
+                var shipping = 29.90;
+                var giftWrap = $('#GiftWrap').is(':checked') ? 20.00 : 0.00;
+
+                $('#giftWrapPrice').text('₺' + giftWrap.toFixed(2));
+                var total = subtotal + shipping + giftWrap;
+                $('#totalPrice').text('₺' + total.toFixed(2));
+            }
+        });
+    </script>
+} 

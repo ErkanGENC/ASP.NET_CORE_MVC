@@ -6,16 +6,15 @@ namespace StoreApp.Models
 {
     public class Cart
     {
-        private List<CartLine> _lines = new();
+        public List<CartLine> Lines { get; set; } = new List<CartLine>();
 
         public virtual void AddItem(Product product, int quantity)
         {
-            CartLine? line = _lines
-                .FirstOrDefault(l => l.Product.Id == product.Id);
+            CartLine? line = Lines.FirstOrDefault(l => l.Product.Id == product.Id);
 
             if (line is null)
             {
-                _lines.Add(new CartLine()
+                Lines.Add(new CartLine()
                 {
                     Product = product,
                     Quantity = quantity
@@ -28,15 +27,18 @@ namespace StoreApp.Models
         }
 
         public virtual void RemoveLine(Product product) =>
-            _lines.RemoveAll(l => l.Product.Id == product.Id);
+            Lines.RemoveAll(l => l.Product.Id == product.Id);
 
-        public virtual void Clear() => _lines.Clear();
+        public virtual decimal ComputeTotalValue() =>
+            Lines.Sum(l => l.Product.Price * l.Quantity);
+
+        public virtual void Clear() => Lines.Clear();
+
+        public virtual int TotalItems() => Lines.Sum(l => l.Quantity);
 
         public virtual void UpdateQuantity(Product product, int quantity)
         {
-            CartLine? line = _lines
-                .FirstOrDefault(l => l.Product.Id == product.Id);
-
+            CartLine? line = Lines.FirstOrDefault(l => l.Product.Id == product.Id);
             if (line is not null)
             {
                 if (quantity > 0)
@@ -45,10 +47,5 @@ namespace StoreApp.Models
                     RemoveLine(product);
             }
         }
-
-        public decimal ComputeTotalValue() =>
-            _lines.Sum(l => l.Product.Price * l.Quantity);
-
-        public IEnumerable<CartLine> Lines => _lines;
     }
 } 

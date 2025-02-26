@@ -12,64 +12,59 @@ namespace StoreApp.Infrastructure.Extensions
         [JsonIgnore]
         public ISession? Session { get; set; }
 
-        public static Cart GetCart(IServiceProvider services)
-        {
-            ISession? session = services.GetRequiredService<IHttpContextAccessor>()
-                .HttpContext?.Session;
-
-            SessionCart cart = session?.GetJson<SessionCart>("cart") ?? new SessionCart();
-            cart.Session = session;
-            return cart;
-        }
-
         public override void AddItem(Product product, int quantity)
         {
             base.AddItem(product, quantity);
-            Session?.SetJson("cart", this);
+            Session?.SetJson("Cart", this);
         }
 
         public override void RemoveLine(Product product)
         {
             base.RemoveLine(product);
-            Session?.SetJson("cart", this);
+            Session?.SetJson("Cart", this);
         }
 
         public override void Clear()
         {
             base.Clear();
-            Session?.Remove("cart");
+            Session?.Remove("Cart");
         }
 
         public override void UpdateQuantity(Product product, int quantity)
         {
             base.UpdateQuantity(product, quantity);
-            Session?.SetJson("cart", this);
+            Session?.SetJson("Cart", this);
+        }
+
+        public static SessionCart GetCart(IServiceProvider services)
+        {
+            var session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext?.Session;
+            SessionCart cart = session?.GetJson<SessionCart>("Cart") ?? new SessionCart();
+            cart.Session = session;
+            return cart;
         }
     }
 
     public static class SessionExtensions
     {
+        private static JsonSerializerOptions GetJsonOptions() => new()
+        {
+            ReferenceHandler = ReferenceHandler.Preserve,
+            WriteIndented = true,
+            IncludeFields = true
+        };
+
         public static void SetJson(this ISession session, string key, object value)
         {
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve,
-                WriteIndented = true
-            };
-            session.SetString(key, JsonSerializer.Serialize(value, options));
+            session.SetString(key, JsonSerializer.Serialize(value, GetJsonOptions()));
         }
 
         public static T? GetJson<T>(this ISession session, string key)
         {
             var sessionData = session.GetString(key);
-            if (string.IsNullOrEmpty(sessionData))
-                return default(T);
-
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve
-            };
-            return JsonSerializer.Deserialize<T>(sessionData, options);
+            return string.IsNullOrEmpty(sessionData) 
+                ? default(T) 
+                : JsonSerializer.Deserialize<T>(sessionData, GetJsonOptions());
         }
     }
 } 

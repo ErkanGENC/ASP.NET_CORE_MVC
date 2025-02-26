@@ -14,16 +14,19 @@ namespace Repositories
         private readonly RepositoryContext _context;
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IOrderRepository _orderRepository;
 
         public RepositoryManager(RepositoryContext context)
         {
             _context = context;
             _productRepository = new ProductRepository(context);
             _categoryRepository = new CategoryRepository(context);
+            _orderRepository = new OrderRepository(context);
         }
 
         public IProductRepository Product => _productRepository;
         public ICategoryRepository Category => _categoryRepository;
+        public IOrderRepository Order => _orderRepository;
 
         public void Save()
         {

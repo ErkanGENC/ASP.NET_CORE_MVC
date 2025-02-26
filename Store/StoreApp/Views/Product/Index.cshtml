@@ -1,4 +1,5 @@
-@model IEnumerable<Entities.Models.Product>
+@using Entities.Dtos
+@model IEnumerable<ProductDto>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Ürün Listesi";
@@ -6,42 +7,33 @@
 
 <div class="container mt-4">
     <h2 class="text-center mb-4">Ürün Listesi</h2>
-    <div class="table-responsive">
-        <table class="table table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Görsel</th>
-                    <th>Ürün Adı</th>
-                    <th>Fiyat</th>
-                    <th>Açıklama</th>
-                    <th>İşlemler</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var product in Model)
-                {
-                    <tr>
-                        <td>@product.Id</td>
-                        <td><img src="@product.ImageUrl" alt="@product.Name" style="width: 100px; height: 100px;"></td>
-                        <td>@product.Name</td>
-                        <td>@product.Price.ToString("C2")</td>
-                        <td>@product.Description</td>
-                        <td>
-                            <div class="btn-group">
-                                <a asp-controller="Product" asp-action="Get" asp-route-id="@product.Id"
-                                    class="btn btn-info">
-                                    <i class="fas fa-info-circle"></i> Detaylar
-                                </a>
-                                <button type="button" class="btn btn-success" onclick="openCartModal(@product.Id)">
-                                    <i class="fas fa-cart-plus"></i> Sepete Ekle
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p class="card-text"><strong>Fiyat: </strong>₺@product.Price.ToString("N2")</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <form asp-page="/Cart/Cart" asp-page-handler="Add" method="post">
+                                <input type="hidden" name="id" value="@product.Id" />
+                                <input type="hidden" name="returnUrl" value="/Product" />
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-cart-plus"></i> Sepete Ekle
                                 </button>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            </form>
+                            <a asp-controller="Product" asp-action="Get" asp-route-id="@product.Id" 
+                               class="btn btn-primary">
+                                <i class="fa fa-info-circle"></i> Detaylar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
