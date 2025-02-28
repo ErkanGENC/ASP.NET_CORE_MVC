@@ -102,7 +102,6 @@ C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Mic
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Configuration.KeyPerFile.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Configuration.UserSecrets.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Configuration.Xml.dll
-C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.dll
@@ -127,11 +126,8 @@ C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Mic
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Logging.EventLog.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Logging.EventSource.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Logging.TraceSource.dll
-C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.ObjectPool.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Options.DataAnnotations.dll
-C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Options.dll
-C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.Primitives.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Extensions.WebEncoders.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.JSInterop.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Microsoft.Net.Http.Headers.dll
@@ -267,7 +263,6 @@ C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\Sys
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\System.Text.Encoding.CodePages.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\System.Text.Encoding.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\System.Text.Encoding.Extensions.dll
-C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\System.Text.Encodings.Web.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\System.Text.Json.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\System.Text.RegularExpressions.dll
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\refs\System.Threading.Channels.dll
@@ -390,3 +385,10 @@ C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\obj\Debug\net6.0\refint\S
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\obj\Debug\net6.0\StoreApp.pdb
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\obj\Debug\net6.0\StoreApp.genruntimeconfig.cache
 C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\obj\Debug\net6.0\ref\StoreApp.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\Microsoft.Extensions.ObjectPool.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\StoreApp\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

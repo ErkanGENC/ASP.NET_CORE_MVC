@@ -1,0 +1,56 @@
+@model ProductFilterViewModel
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Filtreler</h5>
+    </div>
+    <div class="card-body">
+        <form method="get" asp-controller="Product" asp-action="Index" id="filterForm">
+            <!-- Arama -->
+            <div class="mb-3">
+                <label asp-for="SearchTerm" class="form-label">Ürün Ara</label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="Ürün adı...">
+            </div>
+
+            <!-- Kategori -->
+            <div class="mb-3">
+                <label asp-for="CategoryId" class="form-label">Kategori</label>
+                <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+                    <option value="">Tüm Kategoriler</option>
+                </select>
+            </div>
+
+            <!-- Fiyat Aralığı -->
+            <div class="mb-3">
+                <label class="form-label">Fiyat Aralığı</label>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <input asp-for="MinPrice" class="form-control" placeholder="Min">
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="MaxPrice" class="form-control" placeholder="Max">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sıralama -->
+            <div class="mb-3">
+                <label asp-for="SortBy" class="form-label">Sıralama</label>
+                <select asp-for="SortBy" class="form-select">
+                    <option value="">Varsayılan</option>
+                    @foreach (var option in Model.SortOptions)
+                    {
+                        <option value="@option.Key">@option.Value</option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-filter"></i> Filtrele
+            </button>
+            <a href="@Url.Action("Index", "Product")" class="btn btn-outline-secondary w-100 mt-2">
+                <i class="fas fa-times"></i> Filtreleri Temizle
+            </a>
+        </form>
+    </div>
+</div> 

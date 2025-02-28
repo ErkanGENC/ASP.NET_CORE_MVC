@@ -29,35 +29,30 @@ namespace StoreApp.Pages
             ReturnUrl = returnUrl ?? "/";
         }
 
-        public async Task<IActionResult> OnPostAddAsync(int id, string returnUrl)
+        public async Task<IActionResult> OnPostAddAsync(int id, int quantity, string returnUrl)
         {
             try
             {
                 var product = await _manager.ProductService.GetProductByIdAsync(id);
                 if (product != null)
                 {
-                    var productModel = new Product
+                    _cart.AddItem(new Product
                     {
-                        Id = product.Id,
+                        Id = product.ProductId,
                         Name = product.Name,
                         Price = product.Price,
-                        ImageUrl = product.ImageUrl,
-                        Description = product.Description
-                    };
+                        ImageUrl = product.ImageUrl
+                    }, quantity);
 
-                    _cart.AddItem(productModel, 1);
-                    Message = $"{product.Name} başarıyla sepete eklendi.";
+                    Message = $"{product.Name} sepete eklendi.";
                 }
-                else
-                {
-                    Message = "Ürün bulunamadı.";
-                }
+                return RedirectToPage(new { returnUrl = returnUrl });
             }
             catch (Exception ex)
             {
                 Message = $"Hata: {ex.Message}";
+                return RedirectToPage(new { returnUrl = returnUrl });
             }
-            return RedirectToPage(new { returnUrl = returnUrl });
         }
 
         public IActionResult OnPostRemove(int id)
@@ -66,7 +61,7 @@ namespace StoreApp.Pages
             if (product != null)
             {
                 _cart.RemoveLine(product);
-                Message = "Ürün sepetten kaldırıldı.";
+                Message = $"{product.Name} sepetten çıkarıldı.";
             }
             return RedirectToPage();
         }
@@ -74,39 +69,26 @@ namespace StoreApp.Pages
         public IActionResult OnPostClear()
         {
             _cart.Clear();
-            Message = "Sepet temizlendi.";
+            Message = "Sepetiniz temizlendi.";
             return RedirectToPage();
         }
 
         public IActionResult OnPostUpdateQuantity(int id, int quantity)
         {
-            try
+            var product = _cart.Lines.FirstOrDefault(cl => cl.Product.Id == id)?.Product;
+            if (product != null)
             {
-                if (quantity < 1)
-                {
-                    quantity = 1;
-                }
-                else if (quantity > 100)
-                {
-                    quantity = 100;
-                }
-
-                var product = _cart.Lines.FirstOrDefault(cl => cl.Product.Id == id)?.Product;
-                if (product != null)
+                if (quantity > 0)
                 {
                     _cart.UpdateQuantity(product, quantity);
-                    Message = "Ürün miktarı güncellendi.";
+                    Message = $"{product.Name} ürününün adedi güncellendi.";
                 }
                 else
                 {
-                    Message = "Ürün bulunamadı.";
+                    _cart.RemoveLine(product);
+                    Message = $"{product.Name} sepetten çıkarıldı.";
                 }
             }
-            catch (Exception ex)
-            {
-                Message = $"Hata: {ex.Message}";
-            }
-
             return RedirectToPage();
         }
     }

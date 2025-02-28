@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,10 +12,11 @@
     <style>
         .navbar {
             background-color: #2c3e50 !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
         }
 
-        .navbar-brand, .nav-link {
+        .navbar-brand,
+        .nav-link {
             color: #ecf0f1 !important;
         }
 
@@ -29,7 +31,7 @@
 
         .dropdown-menu {
             border: none;
-            box-shadow: 0 0 10px rgba(0,0,0,.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
         }
 
         .notification-badge {
@@ -68,7 +70,7 @@
 
         .card {
             border: none;
-            box-shadow: 0 0 10px rgba(0,0,0,.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
             transition: transform 0.3s;
         }
 
@@ -85,8 +87,40 @@
             background-color: #2980b9;
             border-color: #2980b9;
         }
+
+        .latest-products {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .latest-products h5 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .latest-products .list-group-item {
+            transition: all 0.2s;
+        }
+
+        .latest-products .list-group-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .latest-products li a {
+            display: block;
+            padding: 5px 0;
+            transition: all 0.2s;
+        }
+
+        .latest-products li a:hover {
+            transform: translateX(5px);
+            color: #3498db !important;
+        }
     </style>
 </head>
+
 <body>
     <header>
         @await Html.PartialAsync("_Navbar")
@@ -132,8 +166,8 @@
                 <div class="col-md-4">
                     <h5>İletişim</h5>
                     <p>
-                        <i class="fas fa-envelope me-2"></i> info@store.com<br>
-                        <i class="fas fa-phone me-2"></i> +90 555 123 4567
+                        <i class="fas fa-envelope me-2"></i> gencerkan149@gmail.com<br>
+                        <i class="fas fa-phone me-2"></i> +90 552 804 29 24
                     </p>
                 </div>
             </div>
@@ -142,6 +176,19 @@
                 &copy; @DateTime.Now.Year - Store App - Made with <i class="fas fa-heart text-danger"></i>
             </p>
         </div>
+        <div class="text-center">
+            <div class="div class btn group btn-group-sm">
+                <a asp-protocol="https" asp-host="github.com/ErkanGENC" class="btn btn-primary text-white"><i
+                        class="fab fa-github"></i> GitHub</a>
+                <a asp-protocol="https" asp-host="www.facebook.com/erkan.genc.1044"
+                    class="btn btn-primary text-white"><i class="fab fa-facebook"></i> Facebook</a>
+                <a asp-protocol="https" asp-host="app.gitbook.com/o/FDce1KSc7L84JNcyFedw/s/4NpnekGMdDgkDBYOQrcF/"
+                    class="btn btn-primary text-white"><i class="fab fa-book"></i> Gitbook</a>
+                <a asp-protocol="https" asp-host="www.linkedin.com/in/erkan-gen%C3%A7-2711a4222/"
+                    class="btn btn-primary text-white"><i class="fab fa-linkedin"></i> Linkedin</a>
+            </div>
+
+        </div>
     </footer>
 
     <script src="~/lib/jquery/jquery.min.js"></script>
@@ -149,4 +196,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

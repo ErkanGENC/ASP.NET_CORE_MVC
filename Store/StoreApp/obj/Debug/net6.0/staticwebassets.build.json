@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Q9tr6+0Kn90fu6bJiA0phqe64icy71bansu3l31Xrtw=",
+  "Hash": "lEMflRjlrqT5vdNKLtA6/AXNjytDIJVaD7ZPgf5C/5k=",
   "Source": "StoreApp",
   "BasePath": "_content/StoreApp",
   "Mode": "Default",
@@ -31,8 +31,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "hsf6czstej",
-      "Integrity": "j3J27a3rhDaPd42N3mjJ06ZsOHIJL+JZx5pJsfAQacU=",
+      "Fingerprint": "foo6hjuz3s",
+      "Integrity": "kcADR4ta3NKG8XXFZxLkmKTLBMQGql7nlnOIiqKw168=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -59,6 +59,132 @@
       "OriginalItemSpec": "wwwroot\\images\\admin\\admin_avatar.jpg"
     },
     {
+      "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\0204a83c-4b9f-434b-8903-77b314fe99f5.jpg",
+      "SourceId": "StoreApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\",
+      "BasePath": "_content/StoreApp",
+      "RelativePath": "images/products/0204a83c-4b9f-434b-8903-77b314fe99f5#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "1rsukt53nf",
+      "Integrity": "89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\0204a83c-4b9f-434b-8903-77b314fe99f5.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\1377e015-9ec0-4bbe-aa67-6452f25cf0d0.jpg",
+      "SourceId": "StoreApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\",
+      "BasePath": "_content/StoreApp",
+      "RelativePath": "images/products/1377e015-9ec0-4bbe-aa67-6452f25cf0d0#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ba0acvnhqm",
+      "Integrity": "Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\1377e015-9ec0-4bbe-aa67-6452f25cf0d0.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\1fbfafaf-327c-45fa-9bee-edac83d1e007.jpg",
+      "SourceId": "StoreApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\",
+      "BasePath": "_content/StoreApp",
+      "RelativePath": "images/products/1fbfafaf-327c-45fa-9bee-edac83d1e007#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "1rsukt53nf",
+      "Integrity": "89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\1fbfafaf-327c-45fa-9bee-edac83d1e007.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\33938393-e035-476e-9580-52a62e03a8a9.jpg",
+      "SourceId": "StoreApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\",
+      "BasePath": "_content/StoreApp",
+      "RelativePath": "images/products/33938393-e035-476e-9580-52a62e03a8a9#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ba0acvnhqm",
+      "Integrity": "Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\33938393-e035-476e-9580-52a62e03a8a9.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\7e010db7-9115-4a70-9df1-4781c160974a.jpg",
+      "SourceId": "StoreApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\",
+      "BasePath": "_content/StoreApp",
+      "RelativePath": "images/products/7e010db7-9115-4a70-9df1-4781c160974a#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "1rsukt53nf",
+      "Integrity": "89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\7e010db7-9115-4a70-9df1-4781c160974a.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\86657226-7757-47cd-8508-e0e01ee9c7a4.jpg",
+      "SourceId": "StoreApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\",
+      "BasePath": "_content/StoreApp",
+      "RelativePath": "images/products/86657226-7757-47cd-8508-e0e01ee9c7a4#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "1rsukt53nf",
+      "Integrity": "89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\86657226-7757-47cd-8508-e0e01ee9c7a4.jpg"
+    },
+    {
       "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\default.jpg",
       "SourceId": "StoreApp",
       "SourceType": "Discovered",
@@ -78,6 +204,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\default.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\e7ab05eb-f68b-4829-847a-b8d15fd7d777.jpg",
+      "SourceId": "StoreApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\",
+      "BasePath": "_content/StoreApp",
+      "RelativePath": "images/products/e7ab05eb-f68b-4829-847a-b8d15fd7d777#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "42r31l18xp",
+      "Integrity": "RC8u/l7v1P6U2Fxu/LuA/TVI8TrPLL2ILtJIldmebNI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\e7ab05eb-f68b-4829-847a-b8d15fd7d777.jpg"
     },
     {
       "Identity": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\laptop.jpg",
@@ -6833,7 +6980,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "732"
+          "Value": "1655"
         },
         {
           "Name": "Content-Type",
@@ -6841,11 +6988,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"j3J27a3rhDaPd42N3mjJ06ZsOHIJL+JZx5pJsfAQacU=\""
+          "Value": "\"kcADR4ta3NKG8XXFZxLkmKTLBMQGql7nlnOIiqKw168=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 14 Feb 2025 07:38:49 GMT"
+          "Value": "Thu, 27 Feb 2025 07:06:49 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6855,12 +7002,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-j3J27a3rhDaPd42N3mjJ06ZsOHIJL+JZx5pJsfAQacU="
+          "Value": "sha256-kcADR4ta3NKG8XXFZxLkmKTLBMQGql7nlnOIiqKw168="
         }
       ]
     },
     {
-      "Route": "css/site.hsf6czstej.css",
+      "Route": "css/site.foo6hjuz3s.css",
       "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -6870,7 +7017,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "732"
+          "Value": "1655"
         },
         {
           "Name": "Content-Type",
@@ -6878,11 +7025,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"j3J27a3rhDaPd42N3mjJ06ZsOHIJL+JZx5pJsfAQacU=\""
+          "Value": "\"kcADR4ta3NKG8XXFZxLkmKTLBMQGql7nlnOIiqKw168=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 14 Feb 2025 07:38:49 GMT"
+          "Value": "Thu, 27 Feb 2025 07:06:49 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6892,7 +7039,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "hsf6czstej"
+          "Value": "foo6hjuz3s"
         },
         {
           "Name": "label",
@@ -6900,7 +7047,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-j3J27a3rhDaPd42N3mjJ06ZsOHIJL+JZx5pJsfAQacU="
+          "Value": "sha256-kcADR4ta3NKG8XXFZxLkmKTLBMQGql7nlnOIiqKw168="
         }
       ]
     },
@@ -6987,6 +7134,498 @@
       ]
     },
     {
+      "Route": "images/products/0204a83c-4b9f-434b-8903-77b314fe99f5.1rsukt53nf.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\0204a83c-4b9f-434b-8903-77b314fe99f5.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67479"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:10:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1rsukt53nf"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/0204a83c-4b9f-434b-8903-77b314fe99f5.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/0204a83c-4b9f-434b-8903-77b314fe99f5.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\0204a83c-4b9f-434b-8903-77b314fe99f5.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67479"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:10:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/1377e015-9ec0-4bbe-aa67-6452f25cf0d0.ba0acvnhqm.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\1377e015-9ec0-4bbe-aa67-6452f25cf0d0.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3521707"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 12:00:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ba0acvnhqm"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/1377e015-9ec0-4bbe-aa67-6452f25cf0d0.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/1377e015-9ec0-4bbe-aa67-6452f25cf0d0.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\1377e015-9ec0-4bbe-aa67-6452f25cf0d0.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3521707"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 12:00:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/1fbfafaf-327c-45fa-9bee-edac83d1e007.1rsukt53nf.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\1fbfafaf-327c-45fa-9bee-edac83d1e007.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67479"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:09:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1rsukt53nf"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/1fbfafaf-327c-45fa-9bee-edac83d1e007.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/1fbfafaf-327c-45fa-9bee-edac83d1e007.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\1fbfafaf-327c-45fa-9bee-edac83d1e007.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67479"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:09:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/33938393-e035-476e-9580-52a62e03a8a9.ba0acvnhqm.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\33938393-e035-476e-9580-52a62e03a8a9.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3521707"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 12:00:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ba0acvnhqm"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/33938393-e035-476e-9580-52a62e03a8a9.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/33938393-e035-476e-9580-52a62e03a8a9.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\33938393-e035-476e-9580-52a62e03a8a9.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3521707"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 12:00:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Dcjcnf52sZGPqPCWifkqU1AWucILr6+mycmrIw3pNGU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/7e010db7-9115-4a70-9df1-4781c160974a.1rsukt53nf.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\7e010db7-9115-4a70-9df1-4781c160974a.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67479"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:09:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1rsukt53nf"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/7e010db7-9115-4a70-9df1-4781c160974a.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/7e010db7-9115-4a70-9df1-4781c160974a.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\7e010db7-9115-4a70-9df1-4781c160974a.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67479"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:09:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/86657226-7757-47cd-8508-e0e01ee9c7a4.1rsukt53nf.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\86657226-7757-47cd-8508-e0e01ee9c7a4.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67479"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:11:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1rsukt53nf"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/86657226-7757-47cd-8508-e0e01ee9c7a4.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/86657226-7757-47cd-8508-e0e01ee9c7a4.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\86657226-7757-47cd-8508-e0e01ee9c7a4.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67479"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:11:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-89obxqW0S2OgBoKsiJ8xR9V01DPysbDMEm1Y9jRHgqU="
+        }
+      ]
+    },
+    {
       "Route": "images/products/default.jpg",
       "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\default.jpg",
       "Selectors": [],
@@ -7065,6 +7704,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-8XfWh8xi7ea2ky5T+vrpmuLwY6t1YVyxywLQrWFgM6w="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/e7ab05eb-f68b-4829-847a-b8d15fd7d777.42r31l18xp.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\e7ab05eb-f68b-4829-847a-b8d15fd7d777.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4612620"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"RC8u/l7v1P6U2Fxu/LuA/TVI8TrPLL2ILtJIldmebNI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:11:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "42r31l18xp"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/e7ab05eb-f68b-4829-847a-b8d15fd7d777.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-RC8u/l7v1P6U2Fxu/LuA/TVI8TrPLL2ILtJIldmebNI="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/e7ab05eb-f68b-4829-847a-b8d15fd7d777.jpg",
+      "AssetFile": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\e7ab05eb-f68b-4829-847a-b8d15fd7d777.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4612620"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"RC8u/l7v1P6U2Fxu/LuA/TVI8TrPLL2ILtJIldmebNI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Feb 2025 11:11:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-RC8u/l7v1P6U2Fxu/LuA/TVI8TrPLL2ILtJIldmebNI="
         }
       ]
     },

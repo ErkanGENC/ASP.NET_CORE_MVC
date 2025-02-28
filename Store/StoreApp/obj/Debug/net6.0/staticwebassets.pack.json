@@ -9,8 +9,36 @@
       "PackagePath": "staticwebassets\\images\\admin\\admin_avatar.jpg"
     },
     {
+      "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\0204a83c-4b9f-434b-8903-77b314fe99f5.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\0204a83c-4b9f-434b-8903-77b314fe99f5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\1377e015-9ec0-4bbe-aa67-6452f25cf0d0.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\1377e015-9ec0-4bbe-aa67-6452f25cf0d0.jpg"
+    },
+    {
+      "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\1fbfafaf-327c-45fa-9bee-edac83d1e007.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\1fbfafaf-327c-45fa-9bee-edac83d1e007.jpg"
+    },
+    {
+      "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\33938393-e035-476e-9580-52a62e03a8a9.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\33938393-e035-476e-9580-52a62e03a8a9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\7e010db7-9115-4a70-9df1-4781c160974a.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\7e010db7-9115-4a70-9df1-4781c160974a.jpg"
+    },
+    {
+      "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\86657226-7757-47cd-8508-e0e01ee9c7a4.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\86657226-7757-47cd-8508-e0e01ee9c7a4.jpg"
+    },
+    {
       "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\default.jpg",
       "PackagePath": "staticwebassets\\images\\products\\default.jpg"
+    },
+    {
+      "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\e7ab05eb-f68b-4829-847a-b8d15fd7d777.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\e7ab05eb-f68b-4829-847a-b8d15fd7d777.jpg"
     },
     {
       "Id": "C:\\Users\\gence\\Desktop\\ASP.NET_CORE_MVC\\Store\\StoreApp\\wwwroot\\images\\products\\laptop.jpg",

@@ -1,40 +1,87 @@
-@model Entities.Models.Product
+@model ProductDto
 
-
-<div class="container mt-5">
+<div class="container mt-4">
     <div class="row">
-        <!-- Product Image -->
-        <div class="col-md-4">
-            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow"
-                style="max-width: 100%; height: auto;">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
+            </div>
         </div>
+        <div class="col-md-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="/Product" class="text-decoration-none">Ürünler</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+                </ol>
+            </nav>
 
-        <!-- Product Details -->
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0">@Model.Name</h3>
+            <h1 class="display-4 mb-4">@Model.Name</h1>
+
+            <div class="mb-4">
+                <span class="h2 text-primary">₺@Model.Price.ToString("N2")</span>
+                @if (!string.IsNullOrEmpty(Model.CategoryName))
+                {
+                    <span class="badge bg-secondary ms-2">@Model.CategoryName</span>
+                }
+            </div>
+
+            <p class="lead mb-4">@Model.Description</p>
+
+            <form asp-page="/Cart/Cart" asp-page-handler="Add" method="post" class="mb-4">
+                <input type="hidden" name="id" value="@Model.ProductId" />
+                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                
+                <div class="input-group mb-3" style="max-width: 200px;">
+                    <button type="button" class="btn btn-outline-secondary" onclick="decreaseQuantity(this)">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <input type="number" name="quantity" class="form-control text-center" value="1" min="1" max="100" required>
+                    <button type="button" class="btn btn-outline-secondary" onclick="increaseQuantity(this)">
+                        <i class="fas fa-plus"></i>
+                    </button>
                 </div>
+
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-cart-plus me-2"></i>Sepete Ekle
+                </button>
+            </form>
+
+            <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <div class="mb-3">
-                        <h5 class="text-muted">Price</h5>
-                        <p class="h4 text-primary">@Model.Price.ToString("C", new
-                            System.Globalization.CultureInfo("tr-TR"))</ p >
-                    </div>
-                    <div class="mb-3">
-                        <h5 class="text-muted">Description</h5>
-                        <p class="lead">@Model.Description</p>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-between">
-                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary">Back to
-                            Products</a>
-
-                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Home Page</a>
-                    </div>
+                    <h5 class="card-title">
+                        <i class="fas fa-truck me-2"></i>Kargo Bilgileri
+                    </h5>
+                    <p class="card-text">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Aynı gün kargo
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-box text-success me-2"></i>
+                        Ücretsiz kargo (100₺ üzeri alışverişlerde)
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function increaseQuantity(button) {
+            var input = button.parentElement.querySelector('input');
+            var value = parseInt(input.value);
+            if (value < parseInt(input.max)) {
+                input.value = value + 1;
+            }
+        }
+
+        function decreaseQuantity(button) {
+            var input = button.parentElement.querySelector('input');
+            var value = parseInt(input.value);
+            if (value > parseInt(input.min)) {
+                input.value = value - 1;
+            }
+        }
+    </script>
+}

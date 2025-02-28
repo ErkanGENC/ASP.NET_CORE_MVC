@@ -1,0 +1,25 @@
+@model ProductDto
+
+<div class="card h-100">
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
+    }
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">@Model.Summary</p>
+        <p class="card-text"><strong>@Model.Price.ToString("C2")</strong></p>
+        <div class="mt-auto">
+            <a asp-controller="Product" 
+               asp-action="Get" 
+               asp-route-id="@Model.ProductId" 
+               class="btn btn-primary">
+                Detaylar
+            </a>
+            <button onclick="openCartModal(@Model.ProductId)" 
+                    class="btn btn-success">
+                <i class="fa fa-cart-plus"></i> Sepete Ekle
+            </button>
+        </div>
+    </div>
+</div> 

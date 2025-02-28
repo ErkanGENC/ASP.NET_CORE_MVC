@@ -54,7 +54,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 // API için gerekli servisler
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.ConfigureRouting();
 var app = builder.Build();
 
 

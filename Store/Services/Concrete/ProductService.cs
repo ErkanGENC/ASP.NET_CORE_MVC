@@ -2,6 +2,7 @@ using Entities.Models;
 using Entities.Dtos;
 using Repositories.Contracts;
 using Services.Abstract;
+using System.Linq;
 
 namespace Services.Concrete
 {
@@ -19,7 +20,7 @@ namespace Services.Concrete
             var products = await _repositoryManager.Product.GetAllProductsAsync();
             return products.Select(p => new ProductDto
             {
-                Id = p.Id,
+                ProductId = p.Id,
                 Name = p.Name,
                 Price = p.Price,
                 Description = p.Description,
@@ -37,7 +38,7 @@ namespace Services.Concrete
 
             return new ProductDto
             {
-                Id = product.Id,
+                ProductId = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
@@ -64,9 +65,9 @@ namespace Services.Concrete
 
         public async Task UpdateProductAsync(ProductDtoForUpdate productDto)
         {
-            var product = await _repositoryManager.Product.GetProductByIdAsync(productDto.Id);
+            var product = await _repositoryManager.Product.GetProductByIdAsync(productDto.ProductId);
             if (product == null)
-                throw new Exception($"Product with id {productDto.Id} not found");
+                throw new Exception($"Product with id {productDto.ProductId} not found");
 
             product.Name = productDto.Name;
             product.Price = productDto.Price;

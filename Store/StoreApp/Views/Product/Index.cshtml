@@ -1,153 +1,177 @@
 @using Entities.Dtos
-@model IEnumerable<ProductDto>
+@using StoreApp.Models.ViewModels
+@model ProductFilterViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Ürün Listesi";
 }
 
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Ürün Listesi</h2>
     <div class="row">
-        @foreach (var product in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">@product.Description</p>
-                        <p class="card-text"><strong>Fiyat: </strong>₺@product.Price.ToString("N2")</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <form asp-page="/Cart/Cart" asp-page-handler="Add" method="post">
-                                <input type="hidden" name="id" value="@product.Id" />
-                                <input type="hidden" name="returnUrl" value="/Product" />
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fa fa-cart-plus"></i> Sepete Ekle
-                                </button>
-                            </form>
-                            <a asp-controller="Product" asp-action="Get" asp-route-id="@product.Id" 
-                               class="btn btn-primary">
-                                <i class="fa fa-info-circle"></i> Detaylar
-                            </a>
+        <!-- Sol Kolon: Filtreleme ve Son Eklenen Ürünler -->
+        <div class="col-md-3">
+            <!-- Filtreleme Bölümü -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-filter"></i> Filtreler</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" asp-action="Index" id="filterForm">
+                        <!-- Arama -->
+                        <div class="mb-3">
+                            <label asp-for="SearchTerm" class="form-label"><i class="fas fa-search"></i> Ürün Ara</label>
+                            <input asp-for="SearchTerm" class="form-control" placeholder="Ürün adı...">
                         </div>
-                    </div>
+
+                        <!-- Kategori -->
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label"><i class="fas fa-list"></i> Kategori</label>
+                            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+                                <option value="">Tüm Kategoriler</option>
+                            </select>
+                        </div>
+
+                        <!-- Fiyat Aralığı -->
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-money-bill"></i> Fiyat Aralığı</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input asp-for="MinPrice" class="form-control" placeholder="Min">
+                                </div>
+                                <div class="col-6">
+                                    <input asp-for="MaxPrice" class="form-control" placeholder="Max">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sıralama -->
+                        <div class="mb-3">
+                            <label asp-for="SortBy" class="form-label"><i class="fas fa-sort"></i> Sıralama</label>
+                            <select asp-for="SortBy" class="form-select">
+                                <option value="">Varsayılan</option>
+                                @foreach (var option in Model.SortOptions)
+                                {
+                                    <option value="@option.Key">@option.Value</option>
+                                }
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-filter"></i> Filtrele
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary w-100 mt-2">
+                            <i class="fas fa-times"></i> Filtreleri Temizle
+                        </a>
+                    </form>
                 </div>
             </div>
-        }
+
+            <!-- Son Eklenen Ürünler -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-clock"></i> Son Eklenen Ürünler
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var product in ViewBag.LatestProducts)
+                        {
+                            <li class="list-group-item">
+                                <a href="@Url.Action("Get", "Product", new { id = product.ProductId })" 
+                                   class="text-decoration-none">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-dark">@product.Name</span>
+                                        <small class="text-primary">@product.Price.ToString("C2")</small>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ Kolon: Ürün Listesi -->
+        <div class="col-md-9">
+            @if (!Model.Products.Any())
+            {
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Aradığınız kriterlere uygun ürün bulunamadı.
+                </div>
+            }
+            else
+            {
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="col">
+                            <div class="card h-100">
+                                @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                {
+                                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
+                                }
+                                <div class="card-body">
+                                    <h5 class="card-title">@product.Name</h5>
+                                    <p class="card-text">@product.Summary</p>
+                                    <p class="card-text"><strong>Fiyat: </strong>@product.Price.ToString("C2")</p>
+                                    <div class="d-flex gap-2">
+                                        <a class="btn btn-primary flex-grow-1" asp-controller="Product" asp-action="Get" asp-route-id="@product.ProductId">
+                                            <i class="fa fa-search"></i> Detaylar
+                                        </a>
+                                        <button type="button" class="btn btn-success" onclick="openCartModal('@product.ProductId')">
+                                            <i class="fa fa-cart-plus"></i> Sepete Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
 </div>
 
-@foreach (var product in Model)
+@foreach (var product in Model.Products)
 {
     <!-- Sepete Ekle Modal -->
-    <div class="modal fade" id="addToCartModal-@product.Id" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="addToCartModal-@product.ProductId" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title">
                         <i class="fas fa-cart-plus"></i> Sepete Ekle - @product.Name
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <form asp-page="/Cart/Cart" asp-page-handler="Add" method="post" class="needs-validation" novalidate>
-                    <input type="hidden" name="id" value="@product.Id" />
+                    <input type="hidden" name="id" value="@product.ProductId" />
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="card mb-3">
-                                    <div class="card-header bg-primary text-white">
-                                        <h6 class="mb-0">
-                                            <i class="fas fa-user"></i> Müşteri Bilgileri
-                                        </h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label">Ad Soyad</label>
-                                            <input type="text" class="form-control" name="customerName" required>
-                                            <div class="invalid-feedback">
-                                                Lütfen adınızı ve soyadınızı giriniz.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">E-posta</label>
-                                            <input type="email" class="form-control" name="email" required>
-                                            <div class="invalid-feedback">
-                                                Lütfen geçerli bir e-posta adresi giriniz.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Telefon</label>
-                                            <input type="tel" class="form-control" name="phone" required>
-                                            <div class="invalid-feedback">
-                                                Lütfen telefon numaranızı giriniz.
-                                            </div>
-                                        </div>
+                            <div class="col-md-4">
+                                <img src="@product.ImageUrl" class="img-fluid rounded" alt="@product.Name">
+                            </div>
+                            <div class="col-md-8">
+                                <h5>@product.Name</h5>
+                                <p class="text-muted">@product.Summary</p>
+                                <div class="mb-3">
+                                    <label class="form-label">Adet</label>
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="decreaseQuantity(this)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" name="quantity" class="form-control text-center" value="1" min="1" max="100" required>
+                                        <button type="button" class="btn btn-outline-secondary" onclick="increaseQuantity(this)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header bg-info text-white">
-                                        <h6 class="mb-0">
-                                            <i class="fas fa-map-marker-alt"></i> Teslimat Adresi
-                                        </h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label">Adres</label>
-                                            <textarea class="form-control" name="address" rows="3" required></textarea>
-                                            <div class="invalid-feedback">
-                                                Lütfen teslimat adresini giriniz.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Şehir</label>
-                                            <input type="text" class="form-control" name="city" required>
-                                            <div class="invalid-feedback">
-                                                Lütfen şehir bilgisini giriniz.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Posta Kodu</label>
-                                            <input type="text" class="form-control" name="postalCode" required>
-                                            <div class="invalid-feedback">
-                                                Lütfen posta kodunu giriniz.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mt-3">
-                            <div class="card-header bg-warning text-dark">
-                                <h6 class="mb-0">
-                                    <i class="fas fa-box"></i> Sipariş Detayları
-                                </h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-md-3">
-                                        <img src="@product.ImageUrl" alt="@product.Name" 
-                                             class="img-fluid rounded">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5>@product.Name</h5>
-                                        <p class="text-muted">@product.Description</p>
-                                        <h6 class="text-primary">@product.Price.ToString("C2")</h6>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="form-label">Adet</label>
-                                        <input type="number" class="form-control" name="quantity" 
-                                               value="1" min="1" required>
-                                        <div class="invalid-feedback">
-                                            Lütfen geçerli bir miktar giriniz.
-                                        </div>
-                                    </div>
-                                </div>
+                                <p class="h4 mb-3">Fiyat: ₺@product.Price.ToString("N2")</p>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="fas fa-times"></i> İptal
@@ -171,6 +195,23 @@
             myModal.show();
         }
 
+        // Adet arttırma/azaltma fonksiyonları
+        function increaseQuantity(button) {
+            var input = button.parentElement.querySelector('input');
+            var value = parseInt(input.value);
+            if (value < parseInt(input.max)) {
+                input.value = value + 1;
+            }
+        }
+
+        function decreaseQuantity(button) {
+            var input = button.parentElement.querySelector('input');
+            var value = parseInt(input.value);
+            if (value > parseInt(input.min)) {
+                input.value = value - 1;
+            }
+        }
+
         // Form validasyonu
         (function () {
             'use strict'
@@ -186,5 +227,108 @@
                     }, false)
                 })
         })()
+
+        $(document).ready(function() {
+            // Form submit olduğunda loading göster
+            $('#filterForm').on('submit', function() {
+                $(this).find('button[type="submit"]').prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Filtreleniyor...'
+                );
+            });
+        });
     </script>
+}
+
+<!-- Ürün listesinin altına eklenecek -->
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Sayfalama" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <!-- İlk Sayfa -->
+            <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+                <a class="page-link" 
+                   href="@Url.Action("Index", new { 
+                       page = 1,
+                       searchTerm = Model.SearchTerm,
+                       categoryId = Model.CategoryId,
+                       minPrice = Model.MinPrice,
+                       maxPrice = Model.MaxPrice,
+                       sortBy = Model.SortBy
+                   })"
+                   aria-label="İlk">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+            </li>
+
+            <!-- Önceki Sayfa -->
+            <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+                <a class="page-link" 
+                   href="@Url.Action("Index", new { 
+                       page = Model.CurrentPage - 1,
+                       searchTerm = Model.SearchTerm,
+                       categoryId = Model.CategoryId,
+                       minPrice = Model.MinPrice,
+                       maxPrice = Model.MaxPrice,
+                       sortBy = Model.SortBy
+                   })"
+                   aria-label="Önceki">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            </li>
+
+            @{
+                var startPage = Math.Max(1, Model.CurrentPage - 2);
+                var endPage = Math.Min(Model.TotalPages, Model.CurrentPage + 2);
+            }
+
+            @for (var i = startPage; i <= endPage; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link"  
+                       href="@Url.Action("Index", new { 
+                           page = i,
+                           searchTerm = Model.SearchTerm,
+                           categoryId = Model.CategoryId,
+                           minPrice = Model.MinPrice,
+                           maxPrice = Model.MaxPrice,
+                           sortBy = Model.SortBy
+                       })">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <!-- Sonraki Sayfa -->
+            <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+                <a class="page-link " 
+                   href="@Url.Action("Index", new { 
+                       page = Model.CurrentPage + 1,
+                       searchTerm = Model.SearchTerm,
+                       categoryId = Model.CategoryId,
+                       minPrice = Model.MinPrice,
+                       maxPrice = Model.MaxPrice,
+                       sortBy = Model.SortBy
+                   })"
+                   aria-label="Sonraki">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+
+            <!-- Son Sayfa -->
+            <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+                <a class="page-link text-primary" 
+                   href="@Url.Action("Index", new { 
+                       page = Model.TotalPages,
+                       searchTerm = Model.SearchTerm,
+                       categoryId = Model.CategoryId,
+                       minPrice = Model.MinPrice,
+                       maxPrice = Model.MaxPrice,
+                       sortBy = Model.SortBy
+                   })"
+                   aria-label="Son">
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
 }

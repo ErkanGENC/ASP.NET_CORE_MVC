@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.Abstract;
 using Entities.Models;
 using Entities.Dtos;
@@ -7,7 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
@@ -23,34 +25,59 @@ namespace StoreApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            try
-            {
-                var products = await _manager.ProductService.GetAllProductsAsync();
-                return View(products?.ToList() ?? new List<ProductDto>());
-            }
-            catch (Exception)
-            {
-                return View(new List<ProductDto>());
-            }
+            var products = await _manager.ProductService.GetAllProductsAsync();
+            return View(products);
         }
 
         public async Task<IActionResult> Create()
         {
-            ViewBag.Categories = await GetCategoriesSelectList();
+            var categories = await _manager.CategoryService.GetAllCategoriesAsync();
+            ViewBag.Categories = new SelectList(categories, "CategoryId", "CategoryName");
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto)
+        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto, IFormFile? imageFile)
         {
             if (ModelState.IsValid)
             {
-                await _manager.ProductService.CreateProductAsync(productDto);
-                await ReorderProductIds();
-                return RedirectToAction("Index");
+                try 
+                {
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(imageFile.FileName)}";
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products");
+                        
+                        if (!Directory.Exists(uploadsFolder))
+                            Directory.CreateDirectory(uploadsFolder);
+                        
+                        var filePath = Path.Combine(uploadsFolder, fileName);
+                        
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await imageFile.CopyToAsync(stream);
+                        }
+                        
+                        productDto.ImageUrl = $"/images/products/{fileName}";
+                    }
+                    else
+                    {
+                        productDto.ImageUrl = "/images/products/default.jpg";
+                    }
+
+                    await _manager.ProductService.CreateProductAsync(productDto);
+                    TempData["success"] = "Ürün başarıyla oluşturuldu.";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Ürün oluşturulurken bir hata oluştu: " + ex.Message);
+                }
             }
 
-            ViewBag.Categories = await GetCategoriesSelectList();
+            // Hata durumunda kategorileri tekrar yükle
+            ViewBag.Categories = new SelectList(await _manager.CategoryService.GetAllCategoriesAsync(), 
+                "CategoryId", "CategoryName");
             return View(productDto);
         }
 
@@ -62,56 +89,77 @@ namespace StoreApp.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var productForUpdate = new ProductDtoForUpdate
+            var productDto = new ProductDtoForUpdate
             {
-                Id = product.Id,
+                ProductId = product.ProductId,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
                 ImageUrl = product.ImageUrl,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId ?? 0
             };
 
-            ViewBag.Categories = await GetCategoriesSelectList();
-            return View(productForUpdate);
+            var categories = await _manager.CategoryService.GetAllCategoriesAsync();
+            ViewBag.Categories = new SelectList(categories, "CategoryId", "CategoryName");
+
+            return View(productDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update([FromForm] ProductDtoForUpdate productDto)
+        public async Task<IActionResult> Update([FromForm] ProductDtoForUpdate productDto, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(imageFile.FileName)}";
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products");
+                    
+                    if (!Directory.Exists(uploadsFolder))
+                        Directory.CreateDirectory(uploadsFolder);
+                    
+                    var filePath = Path.Combine(uploadsFolder, fileName);
+                    
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+                    
+                    // Eski resmi sil (varsayılan resim değilse)
+                    if (!string.IsNullOrEmpty(productDto.ImageUrl) && 
+                        !productDto.ImageUrl.EndsWith("default.jpg"))
+                    {
+                        var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", 
+                            productDto.ImageUrl.TrimStart('/'));
+                        if (System.IO.File.Exists(oldImagePath))
+                            System.IO.File.Delete(oldImagePath);
+                    }
+                    
+                    productDto.ImageUrl = $"/images/products/{fileName}";
+                }
+
                 await _manager.ProductService.UpdateProductAsync(productDto);
+                TempData["success"] = $"{productDto.Name} başarıyla güncellendi.";
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Categories = await GetCategoriesSelectList();
+            var categories = await _manager.CategoryService.GetAllCategoriesAsync();
+            ViewBag.Categories = new SelectList(categories, "CategoryId", "CategoryName", productDto.CategoryId);
             return View(productDto);
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            try
+            var product = await _manager.ProductService.GetProductByIdAsync(id);
+            if (product == null)
             {
-                await _manager.ProductService.DeleteProductAsync(id);
-                var products = await _manager.ProductService.GetAllProductsAsync();
-
-                if (!products.Any())
-                {
-                    await ResetDatabaseSequence();
-                }
-                else
-                {
-                    await ReorderProductIds();
-                }
-
-                return RedirectToAction("Index");
+                return NotFound();
             }
-            catch (Exception)
-            {
-                return RedirectToAction("Index");
-            }
+
+            await _manager.ProductService.DeleteProductAsync(id);
+            TempData["success"] = $"{product.Name} başarıyla silindi.";
+            return RedirectToAction("Index");
         }
 
         private async Task<SelectList> GetCategoriesSelectList()

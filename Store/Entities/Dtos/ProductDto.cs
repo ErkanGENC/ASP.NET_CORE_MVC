@@ -4,7 +4,7 @@ namespace Entities.Dtos
 {
     public record ProductDto
     {
-        public int Id { get; init; }
+        public int ProductId { get; init; }
 
         [Required(ErrorMessage = "Ürün adı zorunludur")]
         [MinLength(3, ErrorMessage = "Ürün adı en az 3 karakter olmalıdır")]
@@ -15,6 +15,7 @@ namespace Entities.Dtos
         public decimal Price { get; init; }
 
         public string? Description { get; init; }
+        public string? Summary => Description?.Length > 100 ? Description[..97] + "..." : Description;
         public string? ImageUrl { get; init; }
 
         [Required(ErrorMessage = "Kategori seçimi zorunludur")]
