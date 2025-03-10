@@ -72,9 +72,11 @@
                                     <i class="fas fa-cog me-2"></i> Ayarlar
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">
-                                    <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
-                                </a>
+                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
+                                    </button>
+                                </form>
                             </div>
                         </li>
                     </ul>

@@ -42,26 +42,47 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle"></i> Hesabım
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-user me-2"></i> Profilim
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> @User.Identity.Name
                         </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-shopping-bag me-2"></i> Siparişlerim
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user me-2"></i> Profilim
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-shopping-bag me-2"></i> Siparişlerim
+                            </a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                                    <i class="fas fa-shield-alt me-2"></i> Admin Panel
+                                </a>
+                            }
+                            <div class="dropdown-divider"></div>
+                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">
+                            <i class="fas fa-sign-in-alt"></i> Giriş Yap
                         </a>
-                        <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-                            <i class="fas fa-shield-alt me-2"></i> Admin Panel
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Register">
+                            <i class="fas fa-user-plus"></i> Kayıt Ol
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="#">
-                            <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
-                        </a>
-                    </div>
-                </li>
+                    </li>
+                }
             </ul>
         </div>
     </div>

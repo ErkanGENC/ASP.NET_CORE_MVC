@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Repositories.Models
 {
-    public class RepositoryContext : DbContext
+    public class RepositoryContext : IdentityDbContext<IdentityUser>
     {
         public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options)
         {
@@ -19,6 +19,15 @@ namespace Repositories.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Identity tabloları için tablo adları ve şema ayarları
+            modelBuilder.Entity<IdentityUser>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
 
             // Product - Category ilişkisi
             modelBuilder.Entity<Product>()
@@ -48,21 +57,39 @@ namespace Repositories.Models
                 .WithMany(o => o.Lines)
                 .HasForeignKey(ol => ol.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            // OrderLine - Product ilişkisi
-            modelBuilder.Entity<OrderLine>()
-                .HasOne(ol => ol.Product)
-                .WithMany()
-                .HasForeignKey(ol => ol.ProductId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            // Identity ilişkili tablolar için anahtar tanımlamaları
-            modelBuilder.Entity<IdentityUserLogin<string>>().HasNoKey();
-            modelBuilder.Entity<IdentityUserRole<string>>().HasNoKey();
-            modelBuilder.Entity<IdentityUserToken<string>>().HasNoKey();
-
-            // Seed verilerini ekle
-            SeedData.SeedDatabase(modelBuilder);
+                
+            // Order sütunları için nullable olmayan özellikler belirle
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Name)
+                .IsRequired();
+                
+            modelBuilder.Entity<Order>()
+                .Property(o => o.LastName)
+                .IsRequired();
+                
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Address1)
+                .IsRequired();
+                
+            modelBuilder.Entity<Order>()
+                .Property(o => o.City)
+                .IsRequired();
+                
+            modelBuilder.Entity<Order>()
+                .Property(o => o.District)
+                .IsRequired();
+                
+            modelBuilder.Entity<Order>()
+                .Property(o => o.PostalCode)
+                .IsRequired();
+                
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Phone)
+                .IsRequired();
+                
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Email)
+                .IsRequired();
         }
     }
 } 

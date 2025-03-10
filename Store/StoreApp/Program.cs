@@ -9,6 +9,7 @@ using Services.Abstract;
 using Services.Concrete;
 using StoreApp.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using StoreApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,36 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<RepositoryContext>(options => 
     options.UseSqlite(connectionString, 
     b => b.MigrationsAssembly("StoreApp"))); // Migration'ların StoreApp projesinde oluşturulmasını sağlar
+
+// Identity servislerini ekle
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
+    // Şifre gereksinimleri
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true;
+    
+    // Kullanıcı gereksinimleri
+    options.User.RequireUniqueEmail = true;
+    
+    // Lockout ayarları
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+})
+.AddEntityFrameworkStores<RepositoryContext>()
+.AddDefaultTokenProviders();
+
+// Cookie ayarları
+builder.Services.ConfigureApplicationCookie(options => {
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = false;
+    options.Cookie.Name = "StoreApp.Identity";
+});
 
 // Repository ve Service kayıtları
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
@@ -53,10 +84,19 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
 
+// Kimlik doğrulama ve yetkilendirme middleware'leri
+app.UseAuthentication();
 app.UseAuthorization();
 
 // Veritabanını seed'leme
 app.ConfigureAndSeedDb();
+
+// Identity rolleri ve admin kullanıcı oluşturma
+await IdentitySeed.SeedRolesAsync(app);
+await IdentitySeed.SeedAdminAsync(app);
+
+// Manuel olarak admin kullanıcısı oluşturma ve rol atama
+
 
 // Area için route tanımı
 app.MapControllerRoute(

@@ -2,36 +2,57 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Admin Dashboard</h1>
+<div class="container-fluid mt-4">
     <div class="row">
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-header">Products</div>
-                <div class="card-body">
-                    <h5 class="card-title">Product Management</h5>
-                    <p class="card-text">Products View, Add, Update and Delete.</p>
-                    <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-light">Products Go</a>
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
+                    </h4>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-header">Categories</div>
                 <div class="card-body">
-                    <h5 class="card-title">Category Management</h5>
-                    <p class="card-text">Category View, Add, Update and Delete.</p>
-                    <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-light">Categories Go</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-info mb-3">
-                <div class="card-header">Reports</div>
-                <div class="card-body">
-                    <h5 class="card-title">System Reports</h5>
-                    <p class="card-text">System Statistics and  Report View.</p>
-                    <a asp-area="Admin" asp-controller="Report" asp-action="Index" class="btn btn-light">Reports Go</a>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card bg-info text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-box me-2"></i>Ürün Yönetimi
+                                    </h5>
+                                    <p class="card-text">Ürünleri ekle, düzenle ve yönet</p>
+                                    <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-light">
+                                        Ürünlere Git
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card bg-success text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-tags me-2"></i>Kategori Yönetimi
+                                    </h5>
+                                    <p class="card-text">Kategorileri ekle, düzenle ve yönet</p>
+                                    <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-light">
+                                        Kategorilere Git
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card bg-warning text-dark">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-shopping-cart me-2"></i>Sipariş Yönetimi
+                                    </h5>
+                                    <p class="card-text">Siparişleri görüntüle ve yönet</p>
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-light">
+                                        Siparişlere Git
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
