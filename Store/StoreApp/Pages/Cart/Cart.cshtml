@@ -65,41 +65,42 @@
                                                 <td class="ps-4">
                                                     <div class="d-flex align-items-center py-2">
                                                         <div class="product-img-wrapper me-3">
-                                                            <img src="@line.Product.ImageUrl" alt="@line.Product.Name"
-                                                                 class="product-img rounded-3">
+                                                            <img src="@(string.IsNullOrEmpty(line.Product?.ImageUrl) ? "/images/products/default.jpg" : line.Product.ImageUrl)" 
+                                                                 alt="@line.Product?.Name"
+                                                                 class="product-img rounded-3"
+                                                                 style="max-width: 50px;">
                                                         </div>
                                                         <div class="product-info">
-                                                            <h6 class="product-name mb-1">@line.Product.Name</h6>
-                                                            <p class="product-desc mb-0">@line.Product.Description</p>
+                                                            <h6 class="product-name mb-1">@line.Product?.Name</h6>
+                                                            <p class="product-desc mb-0">@line.Product?.Description</p>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <form method="post" asp-page-handler="UpdateQuantity" class="quantity-form mx-auto" data-product-id="@line.Product.Id">
-                                                        <input type="hidden" name="id" value="@line.Product.Id">
-                                                        <div class="input-group input-group-sm quantity-wrapper">
-                                                            <button type="button" class="btn btn-outline-secondary quantity-btn decrease-btn"
-                                                                    @(line.Quantity <= 1 ? "disabled" : "")>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="number" name="quantity" value="@line.Quantity"
-                                                                   class="form-control quantity-input text-center"
-                                                                   min="1" max="100" readonly>
-                                                            <button type="button" class="btn btn-outline-secondary quantity-btn increase-btn">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                                                    <div class="d-flex align-items-center">
+                                                        <a asp-page="/Cart/Cart" 
+                                                           asp-route-id="@line.Product?.ProductId" 
+                                                           asp-route-decrease="true"
+                                                           class="btn btn-sm btn-outline-primary me-2">
+                                                            <i class="fa fa-minus"></i>
+                                                        </a>
+                                                        <span>@line.Quantity</span>
+                                                        <a asp-page="/Cart/Cart" 
+                                                           asp-route-id="@line.Product?.ProductId"
+                                                           class="btn btn-sm btn-outline-primary ms-2">
+                                                            <i class="fa fa-plus"></i>
+                                                        </a>
+                                                    </div>
                                                 </td>
                                                 <td class="text-end">
-                                                    <span class="price">₺@line.Product.Price.ToString("N2")</span>
+                                                    <span class="price">₺@((line.Product?.Price ?? 0).ToString("N2"))</span>
                                                 </td>
                                                 <td class="text-end pe-4">
-                                                    <span class="total-price">₺@((line.Product.Price * line.Quantity).ToString("N2"))</span>
+                                                    <span class="total-price">₺@((line.Product?.Price * line.Quantity ?? 0).ToString("N2"))</span>
                                                 </td>
                                                 <td class="text-center">
                                                     <form method="post" asp-page-handler="Remove" class="d-inline">
-                                                        <input type="hidden" name="id" value="@line.Product.Id">
+                                                        <input type="hidden" name="id" value="@line.Product?.ProductId">
                                                         <button type="submit" class="btn btn-outline-danger btn-sm remove-btn"
                                                                 data-bs-toggle="tooltip" title="Ürünü Kaldır">
                                                             <i class="fas fa-trash"></i>

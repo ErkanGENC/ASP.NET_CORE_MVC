@@ -8,7 +8,9 @@ public class Category
 
     [Required(ErrorMessage = "Kategori adı zorunludur")]
     [MinLength(3, ErrorMessage = "Kategori adı en az 3 karakter olmalıdır")]
-    public string? CategoryName { get; set; } = string.Empty;
+    public string CategoryName { get; set; } = string.Empty;
 
-    public ICollection<Product>? Products { get; set; }
+    public string? Description { get; set; }
+
+    public ICollection<Product> Products { get; set; } = new List<Product>();
 }

@@ -119,7 +119,7 @@
                                         <a class="btn btn-primary flex-grow-1" asp-controller="Product" asp-action="Get" asp-route-id="@product.ProductId">
                                             <i class="fa fa-search"></i> Detaylar
                                         </a>
-                                        <button type="button" class="btn btn-success" onclick="openCartModal('@product.ProductId')">
+                                        <button type="button" class="btn btn-success add-to-cart-btn" data-product-id="@product.ProductId">
                                             <i class="fa fa-cart-plus"></i> Sepete Ekle
                                         </button>
                                     </div>
@@ -235,6 +235,66 @@
                     '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Filtreleniyor...'
                 );
             });
+            
+            // Sepete AJAX ile ekleme
+            $('.add-to-cart-btn').on('click', function() {
+                var productId = $(this).data('product-id');
+                
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "Cart")',
+                    type: 'POST',
+                    data: { 
+                        productId: productId,
+                        quantity: 1
+                    },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Sepet sayısını güncelle
+                            updateCartSummary(response.cartItemCount);
+                            
+                            // Başarı mesajı göster
+                            showNotification('success', response.message);
+                        }
+                    },
+                    error: function() {
+                        showNotification('error', 'Sepete eklenirken bir hata oluştu.');
+                    }
+                });
+            });
+            
+            // Bildirim gösterme fonksiyonu
+            function showNotification(type, message) {
+                var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+                var icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+                
+                var notification = $('<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' +
+                    '<i class="fas ' + icon + ' me-2"></i>' + message +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                '</div>');
+                
+                // Bildirimi sayfaya ekle
+                $('body').append(notification);
+                notification.css({
+                    'position': 'fixed',
+                    'top': '20px',
+                    'right': '20px',
+                    'z-index': '9999',
+                    'max-width': '300px'
+                });
+                
+                // 3 saniye sonra kaldır
+                setTimeout(function() {
+                    notification.alert('close');
+                }, 3000);
+            }
+            
+            // Sepet sayısını güncelleme fonksiyonu
+            function updateCartSummary(count) {
+                $('.cart-badge').text(count);
+            }
         });
     </script>
 }

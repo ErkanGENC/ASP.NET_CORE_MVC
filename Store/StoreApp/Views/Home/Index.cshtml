@@ -1,14 +1,286 @@
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ana Sayfa";
 }
-<div class="text-center">
-    <h1 class="display-4">Welcome to our store</h1>
-    <p>Gitbook <a href="https://app.gitbook.com/">Gitbook link</a>.</p>
 
-    <div class="mt-4">
-        <a asp-controller="Product" asp-action="Index" class="btn btn-primary">
-            View Products
+@model IEnumerable<ProductDto>
+
+<!-- Hero Section -->
+<div class="hero-section py-5 mb-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold">Elektronik Ürünlerde En İyi Fiyatlar</h1>
+                <p class="lead text-muted">
+                    En son teknoloji ürünleri uygun fiyatlarla sizlerle buluşturuyoruz.
+                    Hemen alışverişe başlayın!
+                </p>
+                <div class="d-flex gap-3 mt-4">
+                    <a href="#featured-products" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-shopping-cart me-2"></i> Alışverişe Başla
+                    </a>
+                    <a href="#categories" class="btn btn-outline-secondary btn-lg px-4">
+                        <i class="fas fa-th-large me-2"></i> Kategoriler
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="/images/products/8db6f1c9-130b-4ff9-8219-3682760cdf24.jpg" alt="Elektronik ürünler" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Messages -->
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- Categories Section -->
+<div id="categories" class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Kategoriler</h2>
+        </div>
+    </div>
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card category-card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-laptop fa-3x mb-3 text-primary"></i>
+                    <h3 class="card-title">Bilgisayarlar</h3>
+                    <p class="card-text">Laptop, masaüstü ve oyun bilgisayarları</p>
+                    <a href="#" class="btn btn-outline-primary">Keşfet</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card category-card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-mobile-alt fa-3x mb-3 text-primary"></i>
+                    <h3 class="card-title">Telefonlar</h3>
+                    <p class="card-text">Akıllı telefonlar ve aksesuarlar</p>
+                    <a href="#" class="btn btn-outline-primary">Keşfet</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card category-card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-tablet-alt fa-3x mb-3 text-primary"></i>
+                    <h3 class="card-title">Tabletler</h3>
+                    <p class="card-text">Çeşitli boyutlarda tabletler</p>
+                    <a href="#" class="btn btn-outline-primary">Keşfet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Products Section -->
+<div id="featured-products" class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Öne Çıkan Ürünler</h2>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var product in Model.Take(6))
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm product-card">
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name"
+                             style="height: 200px; object-fit: cover;">
+                    }
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text text-muted flex-grow-1">
+                            @if (!string.IsNullOrEmpty(product.Description))
+                            {
+                                @(product.Description?.Length > 100 ? product.Description.Substring(0, 100) + "..." : product.Description)
+                            }
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="h5 mb-0 text-primary">₺@product.Price.ToString("#,##0.00")</span>
+                            <form class="ajax-cart-form" data-product-id="@product.ProductId">
+                                <input type="hidden" name="productId" value="@product.ProductId">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="button" class="btn btn-primary add-to-cart-btn" data-product-id="@product.ProductId">
+                                    <i class="fas fa-cart-plus"></i>
+                                    Sepete Ekle
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="text-center mt-4">
+        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary btn-lg">
+            <i class="fas fa-th-list me-2"></i> Tüm Ürünleri Görüntüle
         </a>
     </div>
 </div>
+
+<!-- Why Choose Us Section -->
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Neden Bizi Tercih Etmelisiniz?</h2>
+        </div>
+    </div>
+    <div class="row text-center g-4">
+        <div class="col-md-3">
+            <div class="feature-box">
+                <i class="fas fa-truck fa-3x text-primary mb-3"></i>
+                <h4>Hızlı Teslimat</h4>
+                <p>Siparişleriniz en hızlı şekilde kapınıza teslim edilir.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-box">
+                <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                <h4>Güvenli Ödeme</h4>
+                <p>Güvenli ödeme sistemleriyle alışveriş yapın.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-box">
+                <i class="fas fa-undo fa-3x text-primary mb-3"></i>
+                <h4>Kolay İade</h4>
+                <p>14 gün içinde kolay iade imkanı sunuyoruz.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-box">
+                <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                <h4>7/24 Destek</h4>
+                <p>Her zaman yardıma hazır müşteri hizmetleri.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .hero-section {
+            border-radius: 10px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+        }
+        
+        .category-card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+        
+        .feature-box {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-box:hover {
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Sepete AJAX ile ekleme
+            $('.add-to-cart-btn').on('click', function() {
+                var productId = $(this).data('product-id');
+                
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "Cart")',
+                    type: 'POST',
+                    data: { 
+                        productId: productId,
+                        quantity: 1
+                    },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Sepet sayısını güncelle
+                            updateCartSummary(response.cartItemCount);
+                            
+                            // Başarı mesajı göster
+                            showNotification('success', response.message);
+                        }
+                    },
+                    error: function() {
+                        showNotification('error', 'Sepete eklenirken bir hata oluştu.');
+                    }
+                });
+            });
+            
+            // Bildirim gösterme fonksiyonu
+            function showNotification(type, message) {
+                var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+                var icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+                
+                var notification = $('<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' +
+                    '<i class="fas ' + icon + ' me-2"></i>' + message +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                '</div>');
+                
+                // Bildirimi sayfaya ekle
+                $('body').append(notification);
+                notification.css({
+                    'position': 'fixed',
+                    'top': '20px',
+                    'right': '20px',
+                    'z-index': '9999',
+                    'max-width': '300px'
+                });
+                
+                // 3 saniye sonra kaldır
+                setTimeout(function() {
+                    notification.alert('close');
+                }, 3000);
+            }
+            
+            // Sepet sayısını güncelleme fonksiyonu
+            function updateCartSummary(count) {
+                $('.cart-badge').text(count);
+            }
+        });
+    </script>
+}
 

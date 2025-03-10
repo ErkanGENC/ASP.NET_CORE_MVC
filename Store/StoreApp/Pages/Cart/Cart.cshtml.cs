@@ -38,7 +38,7 @@ namespace StoreApp.Pages
                 {
                     _cart.AddItem(new Product
                     {
-                        Id = product.ProductId,
+                        ProductId = product.ProductId,
                         Name = product.Name,
                         Price = product.Price,
                         ImageUrl = product.ImageUrl
@@ -57,7 +57,7 @@ namespace StoreApp.Pages
 
         public IActionResult OnPostRemove(int id)
         {
-            var product = _cart.Lines.FirstOrDefault(cl => cl.Product.Id == id)?.Product;
+            var product = _cart.Lines.FirstOrDefault(cl => cl.Product.ProductId == id)?.Product;
             if (product != null)
             {
                 _cart.RemoveLine(product);
@@ -75,7 +75,7 @@ namespace StoreApp.Pages
 
         public IActionResult OnPostUpdateQuantity(int id, int quantity)
         {
-            var product = _cart.Lines.FirstOrDefault(cl => cl.Product.Id == id)?.Product;
+            var product = _cart.Lines.FirstOrDefault(cl => cl.Product.ProductId == id)?.Product;
             if (product != null)
             {
                 if (quantity > 0)

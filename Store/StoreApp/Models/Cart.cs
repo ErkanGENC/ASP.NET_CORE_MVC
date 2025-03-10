@@ -10,7 +10,8 @@ namespace StoreApp.Models
 
         public virtual void AddItem(Product product, int quantity)
         {
-            CartLine? line = Lines.FirstOrDefault(l => l.Product.Id == product.Id);
+            CartLine? line = Lines
+                .FirstOrDefault(l => l.Product?.ProductId == product.ProductId);
 
             if (line is null)
             {
@@ -27,10 +28,10 @@ namespace StoreApp.Models
         }
 
         public virtual void RemoveLine(Product product) =>
-            Lines.RemoveAll(l => l.Product.Id == product.Id);
+            Lines.RemoveAll(l => l.Product?.ProductId == product.ProductId);
 
-        public virtual decimal ComputeTotalValue() =>
-            Lines.Sum(l => l.Product.Price * l.Quantity);
+        public decimal ComputeTotalValue() =>
+            Lines.Sum(e => e.Product?.Price * e.Quantity ?? 0);
 
         public virtual void Clear() => Lines.Clear();
 
@@ -38,7 +39,7 @@ namespace StoreApp.Models
 
         public virtual void UpdateQuantity(Product product, int quantity)
         {
-            CartLine? line = Lines.FirstOrDefault(l => l.Product.Id == product.Id);
+            CartLine? line = Lines.FirstOrDefault(l => l.Product?.ProductId == product.ProductId);
             if (line is not null)
             {
                 if (quantity > 0)

@@ -1,0 +1,10 @@
+@model Cart
+
+@if (Model.Lines.Count() > 0)
+{
+    <span class="badge bg-primary">@Model.TotalItems()</span>
+}
+else
+{
+    <span class="badge bg-secondary">0</span>
+} 

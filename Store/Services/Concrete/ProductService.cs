@@ -20,7 +20,7 @@ namespace Services.Concrete
             var products = await _repositoryManager.Product.GetAllProductsAsync();
             return products.Select(p => new ProductDto
             {
-                ProductId = p.Id,
+                ProductId = p.ProductId,
                 Name = p.Name,
                 Price = p.Price,
                 Description = p.Description,
@@ -38,7 +38,7 @@ namespace Services.Concrete
 
             return new ProductDto
             {
-                ProductId = product.Id,
+                ProductId = product.ProductId,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,

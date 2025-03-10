@@ -1,0 +1,13 @@
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\bin\Debug\net7.0\Entities.deps.json
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\bin\Debug\net7.0\Entities.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\bin\Debug\net7.0\Entities.pdb
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\Entities.csproj.AssemblyReference.cache
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\Entities.AssemblyInfoInputs.cache
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\Entities.AssemblyInfo.cs
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\Entities.csproj.CoreCompileInputs.cache
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\Entities.sourcelink.json
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\Entities.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\refint\Entities.dll
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\Entities.pdb
+C:\Users\gence\Desktop\ASP.NET_CORE_MVC\Store\Entities\obj\Debug\net7.0\ref\Entities.dll

@@ -1,0 +1,148 @@
+@model Cart
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fa fa-shopping-cart"></i>
+                        Sepetim
+                        <span class="badge bg-light text-primary">@Model.TotalItems() Ürün</span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i> @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (Model.Lines.Count() > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün</th>
+                                        <th class="text-center">Adet</th>
+                                        <th class="text-end">Fiyat</th>
+                                        <th class="text-end">Toplam</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var line in Model.Lines)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    @if (!string.IsNullOrEmpty(line.Product?.ImageUrl))
+                                                    {
+                                                        <img src="@line.Product.ImageUrl" alt="@line.Product.Name" 
+                                                             class="img-thumbnail me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                                    }
+                                                    <div>
+                                                        <h6 class="mb-0">@line.Product?.Name</h6>
+                                                        @if (!string.IsNullOrEmpty(line.Product?.Description))
+                                                        {
+                                                            <small class="text-muted">@line.Product.Description</small>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <form asp-action="UpdateQuantity" method="post" class="d-inline">
+                                                    <input type="hidden" name="productId" value="@line.Product?.ProductId">
+                                                    <div class="input-group input-group-sm" style="width: 120px;">
+                                                        <button class="btn btn-outline-secondary" type="button" 
+                                                                onclick="updateQuantity(this, -1)">-</button>
+                                                        <input type="number" name="quantity" value="@line.Quantity" 
+                                                               class="form-control text-center" min="1" onchange="this.form.submit()">
+                                                        <button class="btn btn-outline-secondary" type="button" 
+                                                                onclick="updateQuantity(this, 1)">+</button>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            <td class="text-end">₺@(line.Product?.Price.ToString("#,##0.00"))</td>
+                                            <td class="text-end">₺@((line.Product?.Price * line.Quantity)?.ToString("#,##0.00"))</td>
+                                            <td class="text-end">
+                                                <form asp-action="RemoveFromCart" method="post" class="d-inline">
+                                                    <input type="hidden" name="productId" value="@line.Product?.ProductId">
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-end"><strong>Toplam:</strong></td>
+                                        <td class="text-end"><strong>₺@Model.ComputeTotalValue().ToString("#,##0.00")</strong></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">
+                                <i class="fas fa-arrow-left"></i>
+                                Alışverişe Devam Et
+                            </a>
+                            <div>
+                                <form asp-action="Clear" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-warning me-2">
+                                        <i class="fas fa-trash"></i>
+                                        Sepeti Temizle
+                                    </button>
+                                </form>
+                                <a asp-controller="Order" asp-action="Checkout" class="btn btn-success">
+                                    <i class="fas fa-check"></i>
+                                    Siparişi Tamamla
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+                            <h5>Sepetiniz boş</h5>
+                            <p class="text-muted">Henüz sepetinize ürün eklemediniz.</p>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                                <i class="fas fa-shopping-bag"></i>
+                                Alışverişe Başla
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateQuantity(button, change) {
+            var input = button.parentElement.querySelector('input[type="number"]');
+            var newValue = parseInt(input.value) + change;
+            if (newValue >= 1) {
+                input.value = newValue;
+                input.form.submit();
+            }
+        }
+    </script>
+} 
