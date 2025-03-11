@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly IServiceManager _manager;

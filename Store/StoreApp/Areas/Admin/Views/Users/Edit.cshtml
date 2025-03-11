@@ -1,0 +1,147 @@
+@model StoreApp.Models.ViewModels.UserEditViewModel
+@{
+    ViewData["Title"] = "Kullanıcı Düzenle";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-edit me-2"></i>Kullanıcı Düzenle
+                    </h4>
+                    <span class="badge bg-dark">ID: @Model.Id</span>
+                </div>
+                <div class="card-body">
+                    @if (Model.IsAdmin)
+                    {
+                        <div class="alert alert-info mb-4">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Not:</strong> Admin kullanıcısının e-posta adresi ve rolleri değiştirilemez.
+                        </div>
+                    }
+
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="IsAdmin" />
+
+                        <div class="mb-3">
+                            <label asp-for="UserName" class="form-label"></label>
+                            <input asp-for="UserName" class="form-control" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" readonly="@Model.IsAdmin" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            @if (Model.IsAdmin)
+                            {
+                                <small class="text-muted">Admin e-posta adresi değiştirilemez.</small>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input asp-for="EmailConfirmed" class="form-check-input" />
+                                <label asp-for="EmailConfirmed" class="form-check-label"></label>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-key me-2"></i>Şifre Değiştir
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Şifreyi değiştirmek için aşağıdaki alanları doldurun. Boş bırakırsanız şifre değişmeyecektir.
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="NewPassword" class="form-label"></label>
+                                    <div class="input-group">
+                                        <input asp-for="NewPassword" class="form-control" type="password" />
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('NewPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                                    <div class="form-text">En az 6 karakter uzunluğunda olmalıdır.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="ConfirmNewPassword" class="form-label"></label>
+                                    <div class="input-group">
+                                        <input asp-for="ConfirmNewPassword" class="form-control" type="password" />
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('ConfirmNewPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="UserRoles" class="form-label"></label>
+                            <div class="row g-3">
+                                @if (Model.AllRoles != null)
+                                {
+                                    @foreach (var role in Model.AllRoles)
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" name="UserRoles" value="@role" 
+                                                       class="form-check-input"
+                                                       @(Model.UserRoles?.Contains(role) == true ? "checked" : "")
+                                                       @(Model.IsAdmin && role == "Admin" ? "disabled checked" : "") />
+                                                <label class="form-check-label">@role</label>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            @if (Model.IsAdmin)
+                            {
+                                <input type="hidden" name="UserRoles" value="Admin" />
+                            }
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Listeye Dön
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save me-1"></i>Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(fieldId) {
+            var field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
+} 

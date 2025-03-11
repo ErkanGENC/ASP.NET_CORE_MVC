@@ -1,0 +1,94 @@
+@model IEnumerable<UserViewModel>
+@{
+    ViewData["Title"] = "Kullanıcı Yönetimi";
+}
+
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="fas fa-users me-2"></i>Kullanıcı Listesi
+            </h4>
+            
+        </div>
+        <div class="card-body">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>@Html.DisplayNameFor(m => m.UserName)</th>
+                            <th>@Html.DisplayNameFor(m => m.Email)</th>
+                            <th>@Html.DisplayNameFor(m => m.PhoneNumber)</th>
+                            <th>@Html.DisplayNameFor(m => m.EmailConfirmed)</th>
+                            <th>@Html.DisplayNameFor(m => m.Roles)</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>@user.UserName</td>
+                                <td>@user.Email</td>
+                                <td>@(user.PhoneNumber ?? "-")</td>
+                                <td>
+                                    @if (user.EmailConfirmed)
+                                    {
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check me-1"></i>Onaylı
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-clock me-1"></i>Bekliyor
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var role in user.Roles)
+                                    {
+                                        <span class="badge bg-info me-1">@role</span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-route-id="@user.Id" 
+                                           class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit me-1"></i>Düzenle
+                                        </a>
+                                        @if (!user.IsAdmin)
+                                        {
+                                            <form asp-action="Delete" asp-route-id="@user.Id" 
+                                                  method="post" class="d-inline"
+                                                  onsubmit="return confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?');">
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash me-1"></i>Sil
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -5,12 +5,13 @@ namespace StoreApp.Models.ViewModels
     public class LoginViewModel
     {
         private string? _returnUrl;
-        [Required(ErrorMessage = "Email adresi zorunludur")]
-        [EmailAddress(ErrorMessage = "Geçerli bir email adresi giriniz")]
+        [Required(ErrorMessage = "Kullanıcı adı veya e-posta adresi zorunludur.")]
+        [Display(Name = "Kullanıcı Adı / E-posta")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Şifre zorunludur")]
+        [Required(ErrorMessage = "Şifre zorunludur.")]
         [DataType(DataType.Password)]
+        [Display(Name = "Şifre")]
         public string Password { get; set; }
 
         [Display(Name = "Beni Hatırla")]

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using StoreApp.Models.ViewModels;
 using System.Diagnostics;
+using StoreApp.Models;
 
 namespace StoreApp.Controllers
 {
@@ -29,19 +30,25 @@ namespace StoreApp.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                    Debug.WriteLine($"Login attempt for email: {model.Email}");
+                    Debug.WriteLine($"Login attempt for: {model.Email}");
                     
-                    // Email ile kullanıcıyı bul
-                    IdentityUser user = await _userManager.FindByEmailAsync(model.Email);
-                    if(user != null)
+                    // Önce e-posta ile kullanıcıyı bulmayı dene
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    
+                    // E-posta ile bulunamadıysa, kullanıcı adı ile dene
+                    if (user == null)
+                    {
+                        user = await _userManager.FindByNameAsync(model.Email);
+                    }
+
+                    if (user != null)
                     {
                         Debug.WriteLine($"User found: {user.UserName}, Email: {user.Email}");
                         
                         await _signInManager.SignOutAsync();
                         
-                        // Kullanıcı adı ile giriş yap
                         var result = await _signInManager.PasswordSignInAsync(
                             userName: user.UserName,
                             password: model.Password, 
@@ -50,9 +57,8 @@ namespace StoreApp.Controllers
                             
                         Debug.WriteLine($"Login result: {result.Succeeded}");
                             
-                        if(result.Succeeded)
+                        if (result.Succeeded)
                         {
-                            // Admin rolünü kontrol et
                             var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
                             Debug.WriteLine($"Is admin: {isAdmin}");
                             
@@ -67,15 +73,21 @@ namespace StoreApp.Controllers
                         }
                         else
                         {
-                            Debug.WriteLine($"Login failed: {result.IsLockedOut}, {result.IsNotAllowed}, {result.RequiresTwoFactor}");
+                            if (result.IsLockedOut)
+                            {
+                                ModelState.AddModelError("", "Hesabınız kilitlendi. Lütfen daha sonra tekrar deneyin.");
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("", "Geçersiz kullanıcı adı/e-posta veya şifre");
+                            }
                         }
                     }
                     else
                     {
                         Debug.WriteLine("User not found");
+                        ModelState.AddModelError("", "Geçersiz kullanıcı adı/e-posta veya şifre");
                     }
-                    
-                    ModelState.AddModelError("", "Geçersiz kullanıcı adı veya şifre");
                 }
                 
                 return View(model);
@@ -95,38 +107,31 @@ namespace StoreApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register([FromForm] RegisterDto model)
         {
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    EmailConfirmed = true
+                    UserName = model.UserName,
+                    Email = model.Email
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    // Yeni kullanıcıya "User" rolünü ekle
                     await _userManager.AddToRoleAsync(user, "User");
-                    
-                    // Kullanıcıyı otomatik olarak giriş yap
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    
-                    // Başarılı kayıt mesajı
-                    TempData["Success"] = "Hesabınız başarıyla oluşturuldu ve giriş yapıldı.";
-                    
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
-
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError("", error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
                 }
             }
-
             return View(model);
         }
 

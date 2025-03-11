@@ -1,4 +1,4 @@
-@model StoreApp.Models.ViewModels.LoginViewModel
+@model LoginViewModel
 
 @{
     ViewData["Title"] = "Giriş Yap";
@@ -14,33 +14,31 @@
                     </h4>
                 </div>
                 <div class="card-body p-4">
-                    <div class="alert alert-info mb-4">
-                        <i class="fas fa-info-circle me-2"></i>
-                        <strong>Bilgi:</strong> Admin kullanıcısı için: <br />
-                        Email: <code>admin@store.com</code> <br />
-                        Şifre: <code>Admin123!</code> <br /><br />
-                        Admin kullanıcısı otomatik olarak admin paneline yönlendirilecektir.
-                    </div>
-
                     <form asp-action="Login" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        <input type="hidden" asp-for="ReturnUrl" />
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-                        <div class="form-floating mb-3">
-                            <input asp-for="Email" class="form-control" placeholder="Email Adresi" />
-                            <label asp-for="Email">Email Adresi</label>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Kullanıcı Adı veya E-posta</label>
+                            <input asp-for="Email" class="form-control" placeholder="Kullanıcı adınız veya e-posta adresiniz" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <input asp-for="Password" class="form-control" placeholder="Şifre" />
-                            <label asp-for="Password">Şifre</label>
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Şifre</label>
+                            <div class="input-group">
+                                <input asp-for="Password" class="form-control" type="password" placeholder="Şifreniz" />
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('Password')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
 
-                        <div class="form-check mb-3">
-                            <input asp-for="RememberMe" class="form-check-input" />
-                            <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input asp-for="RememberMe" class="form-check-input" />
+                                <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 mb-3">
@@ -58,5 +56,15 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-} 
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(fieldId) {
+            var field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
+}

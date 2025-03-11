@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly IServiceManager _manager;
